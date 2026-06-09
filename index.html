@@ -1,10 +1,21 @@
 <!DOCTYPE html>
+<!--
+  =================================================================
+  Communication & Expression
+  Human Compass Subject
+
+  A guided speaking and discussion experience exploring how
+  tone, timing, culture, and context shape meaning.
+  =================================================================
+-->
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Communication & Expression</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 4L96 50L50 96L4 50Z' fill='%235EC8F2' stroke='%231E8CB8' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M50 18L82 50L50 82L18 50Z' fill='%23EAFBFF' stroke='%23FFFFFF' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 34L66 50L50 66L34 50Z' fill='%2347BDE8' stroke='%231E8CB8' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 18L50 34M82 50L66 50M50 82L50 66M18 50L34 50' stroke='%235EC8F2' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -13,8 +24,8 @@
 
   <style>
     /* ============================================================
-   SMART STUDY — COMMUNICATION & EXPRESSION
-   Light Atlas Editorial Style
+   HUMAN COMPASS — COMMUNICATION & EXPRESSION
+   SmartStudy™ Framework · Light Atlas Editorial Style
    ============================================================ */
 
     :root {
@@ -2556,7 +2567,7 @@
     <div class="cover-card">
       <div class="cover-eyebrow">
         <span class="cover-eyebrow-line"></span>
-        Smart Study
+        HUMAN COMPASS SUBJECT
       </div>
       <h1 class="cover-title">Communication<br>&amp; <em>Expression</em></h1>
       <p class="cover-hook">How tone, timing, silence, and small social signals change what people really mean — across
@@ -2579,18 +2590,12 @@
   <div id="view-orientation" class="view view-inner-bg">
     <nav class="top-nav">
       <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4" />
-            <circle cx="7.5" cy="7.5" r="2.2" stroke="currentColor" stroke-width="1.4" />
-            <path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3"
-              stroke-linecap="round" />
-          </svg>
-        </div>
+        <div class="nav-brand-icon" aria-hidden="true"></div>
         <span class="nav-brand-text">Communication &amp; Expression</span>
       </div>
+
       <div class="nav-links">
-        <button class="nav-link active" onclick="goToView('view-orientation')">
+        <button class="nav-link active">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
             <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
@@ -2599,6 +2604,7 @@
           </svg>
           Overview
         </button>
+
         <button class="nav-link" onclick="goToView('view-cultural-lens')">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2" />
@@ -2608,6 +2614,7 @@
           </svg>
           Cultural Lens
         </button>
+
         <button class="nav-link" onclick="goToView('view-discussion')">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path d="M2 3a1 1 0 011-1h7a1 1 0 011 1v5a1 1 0 01-1 1H7L4.5 11V9H3a1 1 0 01-1-1V3z" stroke="currentColor"
@@ -2615,6 +2622,7 @@
           </svg>
           Discussion
         </button>
+
         <button class="nav-link" onclick="goToView('view-reflection')">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path d="M6.5 1v10M3 9l3.5 2.5L10 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
@@ -2624,6 +2632,7 @@
           Reflection
         </button>
       </div>
+
       <div class="nav-actions">
         <button class="nav-session-indicator" onclick="openSessionModal()" title="Session settings">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -2633,8 +2642,9 @@
           </svg>
           <span id="nav-session-name">Current Session</span>
         </button>
+
         <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
-          <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
             <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
               stroke-linecap="round" />
@@ -2727,14 +2737,7 @@
   <div id="view-cultural-lens" class="view view-inner-bg">
     <header class="mobile-header" id="mob-header-cultural-lens">
       <div class="mobile-header-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4" />
-            <circle cx="7.5" cy="7.5" r="2.2" stroke="currentColor" stroke-width="1.4" />
-            <path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3"
-              stroke-linecap="round" />
-          </svg>
-        </div>
+        <div class="nav-brand-icon" aria-hidden="true"></div>
         <span class="mobile-header-title">Cultural Lens</span>
       </div>
       <div class="mobile-header-actions">
@@ -2747,14 +2750,7 @@
     </header>
     <nav class="top-nav">
       <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4" />
-            <circle cx="7.5" cy="7.5" r="2.2" stroke="currentColor" stroke-width="1.4" />
-            <path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3"
-              stroke-linecap="round" />
-          </svg>
-        </div>
+        <div class="nav-brand-icon" aria-hidden="true"></div>
         <span class="nav-brand-text">Communication &amp; Expression</span>
       </div>
       <div class="nav-links">
@@ -2801,7 +2797,7 @@
           </svg>
           <span id="cl-session-name">Current Session</span>
         </button>
-        <button class="nav-icon-btn" onclick="openVocabBank()" title="Key Language">
+        <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
             <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
@@ -2851,14 +2847,7 @@
   <div id="view-discussion" class="view view-inner-bg">
     <header class="mobile-header" id="mob-header-discussion">
       <div class="mobile-header-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4" />
-            <circle cx="7.5" cy="7.5" r="2.2" stroke="currentColor" stroke-width="1.4" />
-            <path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3"
-              stroke-linecap="round" />
-          </svg>
-        </div>
+        <div class="nav-brand-icon" aria-hidden="true"></div>
         <span class="mobile-header-title">Discussion</span>
       </div>
       <div class="mobile-header-actions">
@@ -2871,14 +2860,7 @@
     </header>
     <nav class="top-nav">
       <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4" />
-            <circle cx="7.5" cy="7.5" r="2.2" stroke="currentColor" stroke-width="1.4" />
-            <path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3"
-              stroke-linecap="round" />
-          </svg>
-        </div>
+        <div class="nav-brand-icon" aria-hidden="true"></div>
         <span class="nav-brand-text">Communication &amp; Expression</span>
       </div>
       <div class="nav-links">
@@ -2925,7 +2907,7 @@
           </svg>
           <span id="disc-session-name">Current Session</span>
         </button>
-        <button class="nav-icon-btn" onclick="openVocabBank()" title="Key Language">
+        <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
             <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
@@ -2970,14 +2952,7 @@
   <div id="view-reflection" class="view view-inner-bg">
     <header class="mobile-header" id="mob-header-reflection">
       <div class="mobile-header-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4" />
-            <circle cx="7.5" cy="7.5" r="2.2" stroke="currentColor" stroke-width="1.4" />
-            <path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3"
-              stroke-linecap="round" />
-          </svg>
-        </div>
+        <div class="nav-brand-icon" aria-hidden="true"></div>
         <span class="mobile-header-title">Reflection</span>
       </div>
       <div class="mobile-header-actions">
@@ -2990,22 +2965,49 @@
     </header>
     <nav class="top-nav">
       <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4" />
-            <circle cx="7.5" cy="7.5" r="2.2" stroke="currentColor" stroke-width="1.4" />
-            <path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3"
-              stroke-linecap="round" />
-          </svg>
-        </div>
+        <div class="nav-brand-icon" aria-hidden="true"></div>
         <span class="nav-brand-text">Communication &amp; Expression</span>
       </div>
+
       <div class="nav-links">
-        <button class="nav-link" onclick="goToView('view-orientation')">Overview</button>
-        <button class="nav-link" onclick="goToView('view-cultural-lens')">Cultural Lens</button>
-        <button class="nav-link" onclick="goToView('view-discussion')">Discussion</button>
-        <button class="nav-link active">Reflection</button>
+        <button class="nav-link" onclick="goToView('view-orientation')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+            <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+            <rect x="1" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+            <rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+          </svg>
+          Overview
+        </button>
+
+        <button class="nav-link" onclick="goToView('view-cultural-lens')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2" />
+            <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2" />
+            <path d="M1.5 6.5h2M9.5 6.5h2M6.5 1.5v2M6.5 9.5v2" stroke="currentColor" stroke-width="1.2"
+              stroke-linecap="round" />
+          </svg>
+          Cultural Lens
+        </button>
+
+        <button class="nav-link" onclick="goToView('view-discussion')">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 3a1 1 0 011-1h7a1 1 0 011 1v5a1 1 0 01-1 1H7L4.5 11V9H3a1 1 0 01-1-1V3z" stroke="currentColor"
+              stroke-width="1.2" stroke-linejoin="round" />
+          </svg>
+          Discussion
+        </button>
+
+        <button class="nav-link active">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M6.5 1v10M3 9l3.5 2.5L10 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <circle cx="6.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2" />
+          </svg>
+          Reflection
+        </button>
       </div>
+
       <div class="nav-actions">
         <button class="nav-session-indicator" onclick="openSessionModal()">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -3015,7 +3017,8 @@
           </svg>
           <span id="ref-session-name">Current Session</span>
         </button>
-        <button class="nav-icon-btn" onclick="openVocabBank()" title="Key Language">
+
+        <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
             <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
@@ -3268,6 +3271,25 @@
     // ============================================================
 
     const MODULE_ID = 'communication-expression';
+
+    // Subject identity icon used in the desktop and mobile header
+    const SUBJECT_ICON_SVG = `<svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 58C31 42 41 42 50 54C59 66 69 66 78 50"
+        stroke="#2D8F87"
+        stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M28 38C36 29 45 27 54 32"
+        stroke="#1C2B4A"
+        stroke-width="6"
+        stroke-linecap="round"
+        opacity="0.82"/>
+  <path d="M47 76C56 80 66 78 74 70"
+        stroke="#5EC8F2"
+        stroke-width="6"
+        stroke-linecap="round"
+        opacity="0.9"/>
+  <circle cx="50" cy="54" r="5.5" fill="#1C2B4A"/>
+</svg>`;
 
     // Sparkle/polish SVG icon used in all Upgrade chips
     const UPGRADE_ICON_SVG = `<svg class="upgrade-chip-icon" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3731,6 +3753,12 @@
     // ============================================================
     // NAVIGATION
     // ============================================================
+
+    function renderSubjectIcons() {
+      document.querySelectorAll('.nav-brand-icon').forEach(icon => {
+        icon.innerHTML = SUBJECT_ICON_SVG;
+      });
+    }
 
     function beginModule() {
       const cover = document.getElementById('view-cover');
@@ -4415,6 +4443,7 @@
     // ============================================================
 
     function init() {
+      renderSubjectIcons();
       loadSessions();
       loadProgress();
       updateSessionUI();
