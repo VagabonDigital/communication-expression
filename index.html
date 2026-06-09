@@ -628,17 +628,36 @@
       position: relative;
     }
 
-    .path-arrow {
-      position: absolute;
-      bottom: 1.8rem;
-      right: 1.8rem;
-      color: var(--stone);
+    .path-arrow,
+    .card-arrow-badge {
+      color: rgba(74, 124, 120, 0.62);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       transition: var(--transition);
     }
 
-    .main-path-card:hover .path-arrow {
+    .path-arrow {
+      position: absolute;
+      bottom: 1.75rem;
+      right: 1.8rem;
+    }
+
+    .main-path-card {
+      padding-right: 3.6rem;
+      padding-bottom: 2.4rem;
+    }
+
+    .main-path-card:hover .path-arrow,
+    .reflection-path-card:hover .card-arrow-badge {
       color: var(--accent);
-      transform: translate(3px, -3px);
+      transform: translateX(4px);
+    }
+
+    .reflection-path-card .card-arrow-badge {
+      margin-left: auto;
+      opacity: 0.78;
     }
 
     .reflection-path-card {
@@ -651,6 +670,10 @@
       display: flex;
       align-items: center;
       gap: 1.2rem;
+    }
+
+    .reflection-path-card .card-arrow-badge {
+      margin-left: auto;
     }
 
     .reflection-path-card:hover {
@@ -2722,10 +2745,12 @@
             <h4>Complete the Conversation</h4>
             <p>Closing reflection — revisit what you've explored and carry something forward</p>
           </div>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="color:var(--stone);flex-shrink:0">
-            <path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
+          <div class="card-arrow-badge" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
