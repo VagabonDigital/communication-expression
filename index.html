@@ -58,14 +58,35 @@
       scroll-behavior: smooth;
     }
 
+    html {
+      min-height: 100%;
+      background: var(--cream);
+    }
+
     body {
       font-family: var(--font-body);
-      background: var(--cream);
+      background: transparent;
       color: var(--ink);
       line-height: 1.65;
       font-size: 15px;
-      min-height: 100vh;
+      min-height: 100svh;
       overflow-x: hidden;
+      position: relative;
+      isolation: isolate;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100lvh;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(248, 242, 232, 0.76), rgba(248, 242, 232, 0.82)),
+        url("https://as1.ftcdn.net/jpg/03/71/98/22/1000_F_371982277_7nj9Ex7pVFD3tYDewVz9ViBLc54Kb0rZ.jpg") center center / cover no-repeat;
     }
 
     /* ============================================================
@@ -2521,8 +2542,10 @@
       }
 
       #view-cover {
-        min-height: 100dvh;
-        padding: 1rem 0;
+        min-height: 100svh;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        box-sizing: border-box;
       }
 
       .cover-card {
