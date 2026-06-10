@@ -15,8 +15,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Communication & Expression</title>
   <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 4L96 50L50 96L4 50Z' fill='%235EC8F2' stroke='%231E8CB8' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M50 18L82 50L50 82L18 50Z' fill='%23EAFBFF' stroke='%23FFFFFF' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 34L66 50L50 66L34 50Z' fill='%2347BDE8' stroke='%231E8CB8' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 18L50 34M82 50L66 50M50 82L50 66M18 50L34 50' stroke='%235EC8F2' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 4L96 50L50 96L4 50Z' fill='%235EC8F2' stroke='%231E8CB8' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M50 18L82 50L50 82L18 50Z' fill='%23EAFBFF' stroke='%23FFFFFF' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 34L66 50L50 66L34 50Z' fill='%2347BDE8' stroke='%231E8CB8' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 18L50 34M82 50L66 50M50 82L50 66M18 50L34 50' stroke='%235EC8F2' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
@@ -100,7 +100,7 @@
       pointer-events: none;
       background:
         linear-gradient(rgba(248, 242, 232, 0.76), rgba(248, 242, 232, 0.82)),
-        url("https://as1.ftcdn.net/jpg/03/71/98/22/1000_F_371982277_7nj9Ex7pVFD3tYDewVz9ViBLc54Kb0rZ.jpg") center center / cover no-repeat;
+        var(--module-bg-image, none) center center / cover no-repeat;
     }
 
     /* ============================================================
@@ -152,6 +152,11 @@
       display: block;
     }
 
+    /* Cover needs flex layout when active; override the block set above */
+    #view-cover.active {
+      display: flex;
+    }
+
     /* ============================================================
    VIEW 1: COVER / LANDING
    ============================================================ */
@@ -159,7 +164,7 @@
     #view-cover {
       position: relative;
       min-height: 100vh;
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -169,7 +174,7 @@
     .cover-bg {
       position: absolute;
       inset: 0;
-      background-image: url('https://as1.ftcdn.net/jpg/03/71/98/22/1000_F_371982277_7nj9Ex7pVFD3tYDewVz9ViBLc54Kb0rZ.jpg');
+      background-image: var(--module-bg-image, none);
       background-size: cover;
       background-position: center top;
     }
@@ -2054,7 +2059,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url('https://as1.ftcdn.net/jpg/03/71/98/22/1000_F_371982277_7nj9Ex7pVFD3tYDewVz9ViBLc54Kb0rZ.jpg');
+      background-image: var(--module-bg-image, none);
       background-size: cover;
       background-position: center top;
       filter: blur(18px) saturate(0.85) brightness(1.02);
@@ -2608,9 +2613,8 @@
         <span class="cover-eyebrow-line"></span>
         HUMAN COMPASS SUBJECT
       </div>
-      <h1 class="cover-title">Communication<br>&amp; <em>Expression</em></h1>
-      <p class="cover-hook">How tone, timing, silence, and small social signals change what people really mean — across
-        cultures and everyday life.</p>
+      <h1 class="cover-title" id="cover-title"></h1>
+      <p class="cover-hook" id="cover-hook"></p>
       <div class="cover-actions">
         <button class="btn-begin" onclick="beginModule()">
           Begin lesson
@@ -2627,81 +2631,17 @@
      VIEW 2: ORIENTATION
      ============================================================ -->
   <div id="view-orientation" class="view view-inner-bg">
-    <nav class="top-nav">
-      <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon" aria-hidden="true"></div>
-        <span class="nav-brand-text">Communication &amp; Expression</span>
-      </div>
-
-      <div class="nav-links">
-        <button class="nav-link active">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="1" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Overview
-        </button>
-
-        <button class="nav-link" onclick="goToView('view-cultural-lens')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2" />
-            <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 6.5h2M9.5 6.5h2M6.5 1.5v2M6.5 9.5v2" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          Cultural Lens
-        </button>
-
-        <button class="nav-link" onclick="goToView('view-discussion')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M2 3a1 1 0 011-1h7a1 1 0 011 1v5a1 1 0 01-1 1H7L4.5 11V9H3a1 1 0 01-1-1V3z" stroke="currentColor"
-              stroke-width="1.2" stroke-linejoin="round" />
-          </svg>
-          Discussion
-        </button>
-
-        <button class="nav-link" onclick="goToView('view-reflection')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M6.5 1v10M3 9l3.5 2.5L10 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <circle cx="6.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Reflection
-        </button>
-      </div>
-
-      <div class="nav-actions">
-        <button class="nav-session-indicator" onclick="openSessionModal()" title="Session settings">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <circle cx="6" cy="4" r="2.2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 11c0-2.485 2.015-4 4.5-4s4.5 1.515 4.5 4" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          <span id="nav-session-name">Current Session</span>
-        </button>
-
-        <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
-            <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
-              stroke-linecap="round" />
-            <path d="M2.8 5.4v8.1c0 .9.7 1.6 1.6 1.6h7.4" stroke="currentColor" stroke-width="1.15"
-              stroke-linecap="round" opacity="0.55" />
-          </svg>
-        </button>
-      </div>
-    </nav>
+    <!-- Desktop nav injected by renderNav('view-orientation') -->
+    <div id="nav-orientation"></div>
 
     <div class="orientation-wrap">
       <div class="section-stage">
         <div class="subject-intro-block">
-          <p class="section-eyebrow">Communication &amp; Expression</p>
+          <p class="section-eyebrow" id="orient-eyebrow"></p>
           <h1>How we speak shapes what people hear</h1>
           <p>Communication is never only about choosing the right words. Tone, timing, silence, expression, and cultural
             expectations can all change how a message feels.</p>
-          <p style="margin-top:0.9rem;">In this subject, you’ll explore how meaning is created through voice, language,
+          <p style="margin-top:0.9rem;">In this subject, you'll explore how meaning is created through voice, language,
             and social context — from everyday misunderstandings to deeper questions about honesty, subtlety, emotion,
             and connection.</p>
         </div>
@@ -2716,7 +2656,7 @@
                   stroke-linecap="round" />
               </svg>
             </div>
-            <p class="path-label">Eight cultures</p>
+            <p class="path-label" id="path-label-cl"></p>
             <h2 class="path-title">Cultural Lens</h2>
             <p class="path-desc">Explore how different cultures approach silence, directness, emotional expression, and
               the meaning behind words — and discover what makes each approach make sense in context.</p>
@@ -2736,7 +2676,7 @@
                 <path d="M8 9h6M8 12h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
               </svg>
             </div>
-            <p class="path-label">Fifteen situations</p>
+            <p class="path-label" id="path-label-disc"></p>
             <h2 class="path-title">Discussion</h2>
             <p class="path-desc">Work through real-life communication moments — from awkward everyday slips to subtle
               signals and deeper meaning — using language that helps your ideas land more clearly.</p>
@@ -2776,79 +2716,10 @@
      VIEW 3: CULTURAL LENS
      ============================================================ -->
   <div id="view-cultural-lens" class="view view-inner-bg">
-    <header class="mobile-header" id="mob-header-cultural-lens">
-      <div class="mobile-header-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon" aria-hidden="true"></div>
-        <span class="mobile-header-title">Cultural Lens</span>
-      </div>
-      <div class="mobile-header-actions">
-        <button class="mobile-menu-btn" onclick="openMobileDrawer('cultural-lens')" title="Menu">
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-            <path d="M2 4h13M2 8.5h13M2 13h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
-        </button>
-      </div>
-    </header>
-    <nav class="top-nav">
-      <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon" aria-hidden="true"></div>
-        <span class="nav-brand-text">Communication &amp; Expression</span>
-      </div>
-      <div class="nav-links">
-        <button class="nav-link" onclick="goToView('view-orientation')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="1" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Overview
-        </button>
-        <button class="nav-link active">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2" />
-            <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 6.5h2M9.5 6.5h2M6.5 1.5v2M6.5 9.5v2" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          Cultural Lens
-        </button>
-        <button class="nav-link" onclick="goToView('view-discussion')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M2 3a1 1 0 011-1h7a1 1 0 011 1v5a1 1 0 01-1 1H7L4.5 11V9H3a1 1 0 01-1-1V3z" stroke="currentColor"
-              stroke-width="1.2" stroke-linejoin="round" />
-          </svg>
-          Discussion
-        </button>
-        <button class="nav-link" onclick="goToView('view-reflection')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M6.5 1v10M3 9l3.5 2.5L10 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <circle cx="6.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Reflection
-        </button>
-      </div>
-      <div class="nav-actions">
-        <button class="nav-session-indicator" onclick="openSessionModal()">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <circle cx="6" cy="4" r="2.2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 11c0-2.485 2.015-4 4.5-4s4.5 1.515 4.5 4" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          <span id="cl-session-name">Current Session</span>
-        </button>
-        <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
-            <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
-              stroke-linecap="round" />
-            <path d="M2.8 5.4v8.1c0 .9.7 1.6 1.6 1.6h7.4" stroke="currentColor" stroke-width="1.15"
-              stroke-linecap="round" opacity="0.55" />
-          </svg>
-        </button>
-      </div>
-    </nav>
+    <!-- Mobile header injected by renderMobileHeader('cultural-lens') -->
+    <div id="mob-header-cultural-lens"></div>
+    <!-- Desktop nav injected by renderNav('view-cultural-lens') -->
+    <div id="nav-cultural-lens"></div>
 
     <div class="section-wrap">
       <div class="section-stage">
@@ -2886,79 +2757,10 @@
      VIEW 4: DISCUSSION
      ============================================================ -->
   <div id="view-discussion" class="view view-inner-bg">
-    <header class="mobile-header" id="mob-header-discussion">
-      <div class="mobile-header-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon" aria-hidden="true"></div>
-        <span class="mobile-header-title">Discussion</span>
-      </div>
-      <div class="mobile-header-actions">
-        <button class="mobile-menu-btn" onclick="openMobileDrawer('discussion')" title="Menu">
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-            <path d="M2 4h13M2 8.5h13M2 13h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
-        </button>
-      </div>
-    </header>
-    <nav class="top-nav">
-      <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon" aria-hidden="true"></div>
-        <span class="nav-brand-text">Communication &amp; Expression</span>
-      </div>
-      <div class="nav-links">
-        <button class="nav-link" onclick="goToView('view-orientation')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="1" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Overview
-        </button>
-        <button class="nav-link" onclick="goToView('view-cultural-lens')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2" />
-            <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 6.5h2M9.5 6.5h2M6.5 1.5v2M6.5 9.5v2" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          Cultural Lens
-        </button>
-        <button class="nav-link active">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M2 3a1 1 0 011-1h7a1 1 0 011 1v5a1 1 0 01-1 1H7L4.5 11V9H3a1 1 0 01-1-1V3z" stroke="currentColor"
-              stroke-width="1.2" stroke-linejoin="round" />
-          </svg>
-          Discussion
-        </button>
-        <button class="nav-link" onclick="goToView('view-reflection')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M6.5 1v10M3 9l3.5 2.5L10 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <circle cx="6.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Reflection
-        </button>
-      </div>
-      <div class="nav-actions">
-        <button class="nav-session-indicator" onclick="openSessionModal()">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <circle cx="6" cy="4" r="2.2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 11c0-2.485 2.015-4 4.5-4s4.5 1.515 4.5 4" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          <span id="disc-session-name">Current Session</span>
-        </button>
-        <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
-            <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
-              stroke-linecap="round" />
-            <path d="M2.8 5.4v8.1c0 .9.7 1.6 1.6 1.6h7.4" stroke="currentColor" stroke-width="1.15"
-              stroke-linecap="round" opacity="0.55" />
-          </svg>
-        </button>
-      </div>
-    </nav>
+    <!-- Mobile header injected by renderMobileHeader('discussion') -->
+    <div id="mob-header-discussion"></div>
+    <!-- Desktop nav injected by renderNav('view-discussion') -->
+    <div id="nav-discussion"></div>
 
     <div class="section-wrap">
       <div class="section-stage">
@@ -2969,6 +2771,24 @@
             complicated. As the discussion develops, you'll move from familiar social moments into deeper reflections on
             expression, misunderstanding, intention, and what helps people feel heard and understood. Choose a set to
             begin.</p>
+          <div class="progress-strip">
+            <span id="disc-progress-text">Choose a set below — open any situation that interests you.</span>
+            <span class="progress-pill viewed" id="disc-viewed-count" style="display:none">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.2" />
+                <path d="M3 5l1.5 1.5L7 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <span>0 opened</span>
+            </span>
+            <span class="progress-pill covered" id="disc-covered-count" style="display:none">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 5l2.5 2.5L8 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <span>0 covered</span>
+            </span>
+          </div>
         </div>
         <div class="discussion-sets" id="discussion-sets"></div>
         <div class="scenarios-panel" id="scenarios-panel">
@@ -2991,85 +2811,10 @@
      VIEW 5: REFLECTION
      ============================================================ -->
   <div id="view-reflection" class="view view-inner-bg">
-    <header class="mobile-header" id="mob-header-reflection">
-      <div class="mobile-header-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon" aria-hidden="true"></div>
-        <span class="mobile-header-title">Reflection</span>
-      </div>
-      <div class="mobile-header-actions">
-        <button class="mobile-menu-btn" onclick="openMobileDrawer('reflection')" title="Menu">
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-            <path d="M2 4h13M2 8.5h13M2 13h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
-        </button>
-      </div>
-    </header>
-    <nav class="top-nav">
-      <div class="nav-brand" onclick="goToView('view-orientation')">
-        <div class="nav-brand-icon" aria-hidden="true"></div>
-        <span class="nav-brand-text">Communication &amp; Expression</span>
-      </div>
-
-      <div class="nav-links">
-        <button class="nav-link" onclick="goToView('view-orientation')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="1" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-            <rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Overview
-        </button>
-
-        <button class="nav-link" onclick="goToView('view-cultural-lens')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2" />
-            <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 6.5h2M9.5 6.5h2M6.5 1.5v2M6.5 9.5v2" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          Cultural Lens
-        </button>
-
-        <button class="nav-link" onclick="goToView('view-discussion')">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M2 3a1 1 0 011-1h7a1 1 0 011 1v5a1 1 0 01-1 1H7L4.5 11V9H3a1 1 0 01-1-1V3z" stroke="currentColor"
-              stroke-width="1.2" stroke-linejoin="round" />
-          </svg>
-          Discussion
-        </button>
-
-        <button class="nav-link active">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M6.5 1v10M3 9l3.5 2.5L10 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <circle cx="6.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-          Reflection
-        </button>
-      </div>
-
-      <div class="nav-actions">
-        <button class="nav-session-indicator" onclick="openSessionModal()">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <circle cx="6" cy="4" r="2.2" stroke="currentColor" stroke-width="1.2" />
-            <path d="M1.5 11c0-2.485 2.015-4 4.5-4s4.5 1.515 4.5 4" stroke="currentColor" stroke-width="1.2"
-              stroke-linecap="round" />
-          </svg>
-          <span id="ref-session-name">Current Session</span>
-        </button>
-
-        <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
-            <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
-              stroke-linecap="round" />
-            <path d="M2.8 5.4v8.1c0 .9.7 1.6 1.6 1.6h7.4" stroke="currentColor" stroke-width="1.15"
-              stroke-linecap="round" opacity="0.55" />
-          </svg>
-        </button>
-      </div>
-    </nav>
+    <!-- Mobile header injected by renderMobileHeader('reflection') -->
+    <div id="mob-header-reflection"></div>
+    <!-- Desktop nav injected by renderNav('view-reflection') -->
+    <div id="nav-reflection"></div>
 
     <div class="reflection-wrap">
       <div class="section-stage">
@@ -3127,7 +2872,7 @@
   <div class="mobile-drawer-overlay" id="mobile-drawer-overlay" onclick="closeMobileDrawer()"></div>
   <div class="mobile-drawer" id="mobile-drawer">
     <div class="mobile-drawer-header">
-      <span class="mobile-drawer-title">Communication &amp; Expression</span>
+      <span class="mobile-drawer-title" id="mobile-drawer-subject-title"></span>
       <button class="mobile-drawer-close" onclick="closeMobileDrawer()">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
@@ -3135,50 +2880,7 @@
       </button>
     </div>
     <div class="mobile-drawer-nav" id="mobile-drawer-nav">
-      <button class="mobile-nav-item" id="mob-nav-overview" onclick="mobileNavTo('view-orientation')">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <rect x="1" y="1" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
-          <rect x="9" y="1" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
-          <rect x="1" y="9" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
-          <rect x="9" y="9" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
-        </svg>
-        Overview
-      </button>
-      <button class="mobile-nav-item" id="mob-nav-cultural-lens" onclick="mobileNavTo('view-cultural-lens')">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3" />
-          <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.3" />
-          <path d="M1.5 8h2.5M12 8h2.5M8 1.5v2.5M8 12v2.5" stroke="currentColor" stroke-width="1.3"
-            stroke-linecap="round" />
-        </svg>
-        Cultural Lens
-      </button>
-      <button class="mobile-nav-item" id="mob-nav-discussion" onclick="mobileNavTo('view-discussion')">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M3 4a1.5 1.5 0 011.5-1.5h7A1.5 1.5 0 0113 4v6a1.5 1.5 0 01-1.5 1.5H8.5L6 14V11.5H4.5A1.5 1.5 0 013 10V4z"
-            stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
-        </svg>
-        Discussion
-      </button>
-      <button class="mobile-nav-item" id="mob-nav-reflection" onclick="mobileNavTo('view-reflection')">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 2v12M4 12l4 2.5L12 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
-            stroke-linejoin="round" />
-          <circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.3" />
-        </svg>
-        Reflection
-      </button>
-      <div class="mobile-drawer-divider"></div>
-      <button class="mobile-nav-item" onclick="openVocabBankFromDrawer()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M4.2 2.5h7.3a1.2 1.2 0 011.2 1.2v6.1a1.2 1.2 0 01-1.2 1.2H7.8L5 13.2V11H4.2A1.2 1.2 0 013 9.8V3.7a1.2 1.2 0 011.2-1.2z"
-            stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" />
-          <path d="M5.5 5.7h5M5.5 8.1h3.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
-        </svg>
-        Key Language
-      </button>
+      <!-- Injected by renderMobileDrawerNav() -->
     </div>
     <div class="mobile-drawer-footer">
       <button class="mobile-session-btn" onclick="openSessionModalFromDrawer()">
@@ -3212,8 +2914,12 @@
         </div>
         <button class="explore-deeper-toggle" id="explore-toggle" onclick="toggleExploreDeeper()">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3" />
-            <path d="M8 5.5v3M8 10.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M8 2.4L13 5.2L8 8L3 5.2L8 2.4Z" stroke="currentColor" stroke-width="1.25"
+              stroke-linejoin="round" />
+            <path d="M3.2 8.2L8 10.9L12.8 8.2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M3.2 11L8 13.7L12.8 11" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
           Explore Deeper
           <svg class="explore-deeper-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -3302,16 +3008,102 @@
       </div>
     </div>
   </div>
+
   <!-- ============================================================
      JAVASCRIPT
      ============================================================ -->
   <script>
 
     // ============================================================
-    // DATA
+    // MODULE CONFIG
+    // Change these values when duplicating for a new module.
     // ============================================================
 
-    const MODULE_ID = 'communication-expression';
+    const MODULE = {
+      id: 'communication-expression',
+      title: 'Communication & Expression',
+      titleHtml: 'Communication<br>&amp; <em>Expression</em>',
+      shortTitle: 'Comm. & Expression',
+      coverHook: 'How tone, timing, silence, and small social signals change what people really mean — across cultures and everyday life.',
+      bgImage: 'https://as1.ftcdn.net/jpg/03/71/98/22/1000_F_371982277_7nj9Ex7pVFD3tYDewVz9ViBLc54Kb0rZ.jpg',
+    };
+
+    // ============================================================
+    // NAV CONFIG
+    // Defines all navigation items once; both desktop nav and
+    // mobile drawer are built from this single array.
+    // ============================================================
+
+    const NAV_ITEMS = [
+      {
+        id: 'overview',
+        label: 'Overview',
+        viewId: 'view-orientation',
+        desktopSvg: `<svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+          <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+          <rect x="1" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+          <rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.2" />
+        </svg>`,
+        mobileSvg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
+          <rect x="9" y="1" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
+          <rect x="1" y="9" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
+          <rect x="9" y="9" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.3" />
+        </svg>`,
+      },
+      {
+        id: 'cultural-lens',
+        label: 'Cultural Lens',
+        viewId: 'view-cultural-lens',
+        desktopSvg: `<svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2" />
+          <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2" />
+          <path d="M1.5 6.5h2M9.5 6.5h2M6.5 1.5v2M6.5 9.5v2" stroke="currentColor" stroke-width="1.2"
+            stroke-linecap="round" />
+        </svg>`,
+        mobileSvg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3" />
+          <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.3" />
+          <path d="M1.5 8h2.5M12 8h2.5M8 1.5v2.5M8 12v2.5" stroke="currentColor" stroke-width="1.3"
+            stroke-linecap="round" />
+        </svg>`,
+      },
+      {
+        id: 'discussion',
+        label: 'Discussion',
+        viewId: 'view-discussion',
+        desktopSvg: `<svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <path d="M2 3a1 1 0 011-1h7a1 1 0 011 1v5a1 1 0 01-1 1H7L4.5 11V9H3a1 1 0 01-1-1V3z" stroke="currentColor"
+            stroke-width="1.2" stroke-linejoin="round" />
+        </svg>`,
+        mobileSvg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 4a1.5 1.5 0 011.5-1.5h7A1.5 1.5 0 0113 4v6a1.5 1.5 0 01-1.5 1.5H8.5L6 14V11.5H4.5A1.5 1.5 0 013 10V4z"
+            stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+        </svg>`,
+      },
+      {
+        id: 'reflection',
+        label: 'Reflection',
+        viewId: 'view-reflection',
+        desktopSvg: `<svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <path d="M6.5 1v10M3 9l3.5 2.5L10 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <circle cx="6.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2" />
+        </svg>`,
+        mobileSvg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2v12M4 12l4 2.5L12 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.3" />
+        </svg>`,
+      },
+    ];
+
+    // ============================================================
+    // SUBJECT CONTENT
+    // Edit clCards and discussionSets to change what appears in
+    // the Cultural Lens grid and Discussion view respectively.
+    // ============================================================
 
     // Subject identity icon used in the desktop and mobile header
     const SUBJECT_ICON_SVG = `<svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3526,7 +3318,7 @@
         id: 'set-misfires',
         title: 'Everyday Misfires & Awkward Moments',
         desc: 'Start light with familiar social situations where communication slips, misfires, or creates unexpected tension.',
-        icon: 'misfire',
+        icon: 'react',
         scenarios: [
           {
             id: 'sc-joke-chat',
@@ -3593,7 +3385,7 @@
         id: 'set-intentions',
         title: 'Expressing Ideas & Intentions',
         desc: 'Move into practical communication choices — how to disagree, persuade, introduce yourself, and correct misunderstandings without causing tension.',
-        icon: 'ideas',
+        icon: 'explain',
         scenarios: [
           {
             id: 'sc-disagree',
@@ -3660,7 +3452,7 @@
         id: 'set-signals',
         title: 'Subtle Signals & Deeper Meaning',
         desc: 'Go deeper into the signals, implications, and silences beneath words — what makes people feel understood even when nothing dramatic is said.',
-        icon: 'signals',
+        icon: 'reflect',
         scenarios: [
           {
             id: 'sc-imfine',
@@ -3726,8 +3518,13 @@
     ];
 
     // ============================================================
-    // STATE
+    // TEMPLATE LOGIC
+    // Everything below is generic template code. When duplicating
+    // this module, only the MODULE config, NAV_ITEMS icons/labels,
+    // and the subject content above need to change.
     // ============================================================
+
+    // ---- STATE ----
 
     let currentSession = 'Default';
     let sessions = ['Default'];
@@ -3735,7 +3532,7 @@
     let currentModalIndex = 0;
 
     function getSessionKey() {
-      return `${MODULE_ID}::${currentSession}`;
+      return `${MODULE.id}::${currentSession}`;
     }
 
     function loadProgress() {
@@ -3760,19 +3557,19 @@
     }
 
     function loadSessions() {
-      const raw = localStorage.getItem(`${MODULE_ID}::sessions`);
+      const raw = localStorage.getItem(`${MODULE.id}::sessions`);
       if (raw) {
         try { sessions = JSON.parse(raw); } catch { sessions = ['Default']; }
       }
-      const rawCurrent = localStorage.getItem(`${MODULE_ID}::currentSession`);
+      const rawCurrent = localStorage.getItem(`${MODULE.id}::currentSession`);
       if (rawCurrent && sessions.includes(rawCurrent)) {
         currentSession = rawCurrent;
       }
     }
 
     function saveSessions() {
-      localStorage.setItem(`${MODULE_ID}::sessions`, JSON.stringify(sessions));
-      localStorage.setItem(`${MODULE_ID}::currentSession`, currentSession);
+      localStorage.setItem(`${MODULE.id}::sessions`, JSON.stringify(sessions));
+      localStorage.setItem(`${MODULE.id}::currentSession`, currentSession);
     }
 
     function markViewed(id) {
@@ -3791,19 +3588,158 @@
       return 'default';
     }
 
-    // ============================================================
-    // NAVIGATION
-    // ============================================================
+    // ---- COVER ----
 
+    // The cover view uses .view.active like all other views.
+    // CSS override makes #view-cover display as flex when active.
+    function applyCoverConfig() {
+      document.title = MODULE.title;
+      const coverTitle = document.getElementById('cover-title');
+      if (coverTitle) coverTitle.innerHTML = MODULE.titleHtml;
+      const coverHook = document.getElementById('cover-hook');
+      if (coverHook) coverHook.textContent = MODULE.coverHook;
+      // Set CSS variable used by cover-bg, body::before, and body.module-active::before
+      document.documentElement.style.setProperty('--module-bg-image', `url('${MODULE.bgImage}')`);
+    }
+
+    // ---- LABELS CALCULATED FROM DATA ----
+
+    // Returns a human-readable count label (e.g. "Eight cultures")
+    function countLabel(n) {
+      const words = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+        'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen', 'Twenty'];
+      return n < words.length ? words[n] : String(n);
+    }
+
+    function applyDerivedLabels() {
+      // Cultural Lens path label
+      const clCount = clCards.length;
+      const clLabel = document.getElementById('path-label-cl');
+      if (clLabel) clLabel.textContent = `${countLabel(clCount)} culture${clCount !== 1 ? 's' : ''}`;
+
+      // Discussion path label (total scenarios across all sets)
+      const totalScenarios = discussionSets.reduce((acc, s) => acc + s.scenarios.length, 0);
+      const discLabel = document.getElementById('path-label-disc');
+      if (discLabel) discLabel.textContent = `${countLabel(totalScenarios)} situation${totalScenarios !== 1 ? 's' : ''}`;
+
+      // Orientation eyebrow
+      const orientEyebrow = document.getElementById('orient-eyebrow');
+      if (orientEyebrow) orientEyebrow.textContent = MODULE.title;
+    }
+
+    // ---- NAV RENDERING ----
+
+    // SVG icons shared by desktop and mobile nav actions
+    const NAV_SVG = {
+      session: `<svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <circle cx="6" cy="4" r="2.2" stroke="currentColor" stroke-width="1.2" />
+        <path d="M1.5 11c0-2.485 2.015-4 4.5-4s4.5 1.515 4.5 4" stroke="currentColor" stroke-width="1.2"
+          stroke-linecap="round" />
+      </svg>`,
+      keylang: `<svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <rect x="4.2" y="3.2" width="9.6" height="11" rx="1.6" stroke="currentColor" stroke-width="1.35" />
+        <path d="M6.5 6.5h5M6.5 9h4.2M6.5 11.5h3.2" stroke="currentColor" stroke-width="1.35"
+          stroke-linecap="round" />
+        <path d="M2.8 5.4v8.1c0 .9.7 1.6 1.6 1.6h7.4" stroke="currentColor" stroke-width="1.15"
+          stroke-linecap="round" opacity="0.55" />
+      </svg>`,
+      hamburger: `<svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+        <path d="M2 4h13M2 8.5h13M2 13h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>`,
+      keylangMobile: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M4.2 2.5h7.3a1.2 1.2 0 011.2 1.2v6.1a1.2 1.2 0 01-1.2 1.2H7.8L5 13.2V11H4.2A1.2 1.2 0 013 9.8V3.7a1.2 1.2 0 011.2-1.2z"
+          stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" />
+        <path d="M5.5 5.7h5M5.5 8.1h3.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+      </svg>`,
+    };
+
+    // Render a desktop top-nav into a placeholder div for a given view.
+    // activeViewId is the view this nav lives in, used to mark the active link.
+    function renderNav(containerId, activeViewId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      // Session label element id is derived from the view id for updateSessionUI()
+      const sessionSpanId = `nav-session-${activeViewId}`;
+
+      const links = NAV_ITEMS.map(item => {
+        const isActive = item.viewId === activeViewId;
+        const onclick = isActive ? '' : `onclick="goToView('${item.viewId}')"`;
+        return `<button class="nav-link${isActive ? ' active' : ''}" ${onclick}>
+          ${item.desktopSvg}
+          ${item.label}
+        </button>`;
+      }).join('\n');
+
+      container.innerHTML = `<nav class="top-nav">
+        <div class="nav-brand" onclick="goToView('view-orientation')">
+          <div class="nav-brand-icon" aria-hidden="true"></div>
+          <span class="nav-brand-text">${escHtml(MODULE.title)}</span>
+        </div>
+        <div class="nav-links">${links}</div>
+        <div class="nav-actions">
+          <button class="nav-session-indicator" onclick="openSessionModal()" title="Session settings">
+            ${NAV_SVG.session}
+            <span id="${sessionSpanId}">Current Session</span>
+          </button>
+          <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
+            ${NAV_SVG.keylang}
+          </button>
+        </div>
+      </nav>`;
+    }
+
+    // Render a sticky mobile header for inner views (cultural-lens / discussion / reflection).
+    // viewKey matches the key used in openMobileDrawer() — e.g. 'cultural-lens'.
+    function renderMobileHeader(containerId, viewKey, label) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = `<header class="mobile-header">
+        <div class="mobile-header-brand" onclick="goToView('view-orientation')">
+          <div class="nav-brand-icon" aria-hidden="true"></div>
+          <span class="mobile-header-title">${escHtml(label)}</span>
+        </div>
+        <div class="mobile-header-actions">
+          <button class="mobile-menu-btn" onclick="openMobileDrawer('${viewKey}')" title="Menu">
+            ${NAV_SVG.hamburger}
+          </button>
+        </div>
+      </header>`;
+    }
+
+    // Render the shared mobile drawer nav from NAV_ITEMS.
+    function renderMobileDrawerNav() {
+      const container = document.getElementById('mobile-drawer-nav');
+      if (!container) return;
+
+      const drawerTitle = document.getElementById('mobile-drawer-subject-title');
+      if (drawerTitle) drawerTitle.textContent = MODULE.title;
+
+      const items = NAV_ITEMS.map(item => {
+        return `<button class="mobile-nav-item" id="mob-nav-${item.id}" onclick="mobileNavTo('${item.viewId}')">
+          ${item.mobileSvg}
+          ${item.label}
+        </button>`;
+      }).join('\n');
+
+      container.innerHTML = `${items}
+        <div class="mobile-drawer-divider"></div>
+        <button class="mobile-nav-item" onclick="openVocabBankFromDrawer()">
+          ${NAV_SVG.keylangMobile}
+          Key Language
+        </button>`;
+    }
+
+    // Inject subject icons into all .nav-brand-icon elements
     function renderSubjectIcons() {
       document.querySelectorAll('.nav-brand-icon').forEach(icon => {
         icon.innerHTML = SUBJECT_ICON_SVG;
       });
     }
 
+    // ---- NAVIGATION ----
+
     function beginModule() {
-      const cover = document.getElementById('view-cover');
-      cover.style.display = 'none';
       document.body.classList.add('module-active');
       goToView('view-orientation');
     }
@@ -3822,16 +3758,15 @@
       if (viewId === 'view-discussion') renderDiscussionSets();
     }
 
-    // ============================================================
-    // SESSION MANAGEMENT
-    // ============================================================
+    // ---- SESSION MANAGEMENT ----
 
     function updateSessionUI() {
       const label = currentSession === 'Default' ? 'Current Session' : currentSession;
       const coverEl = document.getElementById('cover-session-label');
       if (coverEl) coverEl.textContent = label;
-      document.querySelectorAll('#nav-session-name, #cl-session-name, #disc-session-name, #ref-session-name').forEach(el => {
-        if (el) el.textContent = label;
+      // Update all session span elements rendered by renderNav()
+      document.querySelectorAll('[id^="nav-session-"]').forEach(el => {
+        el.textContent = label;
       });
       const mobLabel = document.getElementById('mobile-session-label');
       if (mobLabel) mobLabel.textContent = label;
@@ -3889,7 +3824,7 @@
 
     function resetSession(name) {
       if (!confirm(`Reset all progress for session "${name}"?`)) return;
-      localStorage.removeItem(`${MODULE_ID}::${name}`);
+      localStorage.removeItem(`${MODULE.id}::${name}`);
       if (name === currentSession) loadProgress();
       renderSessionList();
       renderCLGrid();
@@ -3898,7 +3833,7 @@
     function deleteSession(name) {
       if (!confirm(`Delete session "${name}"? This will also remove its saved progress.`)) return;
       sessions = sessions.filter(s => s !== name);
-      localStorage.removeItem(`${MODULE_ID}::${name}`);
+      localStorage.removeItem(`${MODULE.id}::${name}`);
       if (currentSession === name) { currentSession = 'Default'; loadProgress(); }
       saveSessions();
       updateSessionUI();
@@ -3919,22 +3854,14 @@
       renderSessionList();
     }
 
-    // ============================================================
-    // MOBILE DRAWER
-    // ============================================================
+    // ---- MOBILE DRAWER ----
 
     let _mobileDrawerActiveView = 'overview';
 
     function openMobileDrawer(activeView) {
       _mobileDrawerActiveView = activeView || 'overview';
-      const map = {
-        'overview': 'mob-nav-overview',
-        'cultural-lens': 'mob-nav-cultural-lens',
-        'discussion': 'mob-nav-discussion',
-        'reflection': 'mob-nav-reflection'
-      };
       document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
-      const activeEl = document.getElementById(map[activeView]);
+      const activeEl = document.getElementById(`mob-nav-${activeView}`);
       if (activeEl) activeEl.classList.add('active');
       document.getElementById('mobile-drawer-overlay').classList.add('open');
       document.getElementById('mobile-drawer').classList.add('open');
@@ -3962,14 +3889,9 @@
       setTimeout(() => openSessionModal(), 80);
     }
 
-    // ============================================================
-    // UPGRADE CHIP
-    // ============================================================
+    // ---- UPGRADE CHIP ----
 
     function buildUpgradeChip(upgradeObj, contextId) {
-      // chip and panel are siblings; the panel always renders below the chip
-      // In modal: wrapped by .upgrade-row (flex column)
-      // In scenario: wrapped by .scenario-upgrade-wrap > .scenario-action-row + panel
       return `<button class="upgrade-chip" id="uc-${contextId}" onclick="toggleUpgrade('${contextId}', event)" aria-expanded="false">
         ${UPGRADE_ICON_SVG}
         Upgrade: ${escHtml(upgradeObj.term)}
@@ -4034,7 +3956,6 @@
       const panel = document.getElementById(`up-${contextId}`);
       if (!chip || !panel) return;
       const isOpen = panel.classList.contains('open');
-      // Close all other open upgrade panels
       document.querySelectorAll('.upgrade-panel.open').forEach(p => {
         p.classList.remove('open');
         const cid = p.id.replace('up-', '');
@@ -4049,9 +3970,7 @@
       }
     }
 
-    // ============================================================
-    // CULTURAL LENS GRID
-    // ============================================================
+    // ---- CULTURAL LENS GRID ----
 
     function renderCLGrid() {
       const grid = document.getElementById('cl-grid');
@@ -4091,9 +4010,7 @@
       else if (textEl) { textEl.textContent = ''; }
     }
 
-    // ============================================================
-    // CULTURAL LENS MODAL
-    // ============================================================
+    // ---- CULTURAL LENS MODAL ----
 
     function openCLModal(index) {
       currentModalIndex = index;
@@ -4106,11 +4023,9 @@
       document.getElementById('modal-question').textContent = card.question;
       document.getElementById('explore-deeper-text').textContent = card.deeper.text;
 
-      // Render upgrade chip for this card
       const upgradeRow = document.getElementById('modal-upgrade-row');
       upgradeRow.innerHTML = buildUpgradeChip(card.upgrade, `cl-${card.id}`);
 
-      // Explore Deeper questions
       const qContainer = document.getElementById('explore-questions');
       qContainer.innerHTML = '';
       card.deeper.questions.forEach((q, i) => {
@@ -4120,12 +4035,10 @@
         qContainer.appendChild(item);
       });
 
-      // Reset state
       document.getElementById('explore-toggle').classList.remove('open');
       document.getElementById('explore-deeper-content').classList.remove('open');
       resetModalScroll();
 
-      // Nav buttons
       document.getElementById('modal-prev-btn').style.opacity = index === 0 ? '0.35' : '1';
       document.getElementById('modal-prev-btn').disabled = index === 0;
       document.getElementById('modal-next-btn').style.opacity = index === clCards.length - 1 ? '0.35' : '1';
@@ -4197,9 +4110,7 @@
       }
     }
 
-    // ============================================================
-    // DISCUSSION SETS
-    // ============================================================
+    // ---- DISCUSSION SETS ----
 
     let activeSetId = null;
 
@@ -4216,34 +4127,79 @@
         el.onclick = () => openSet(set.id);
         const iconSvg = getSetIconSvg(set.icon, activeSetId === set.id);
         el.innerHTML = `
-        <div class="set-icon">${iconSvg}</div>
-        <h3 class="set-title">${escHtml(set.title)}</h3>
-        <p class="set-desc">${escHtml(set.desc)}</p>
-        <div class="set-progress-mini">
-          ${totalScenarios} situations${viewedCount > 0 ? ` · ${viewedCount} opened` : ''}${coveredCount > 0 ? ` · ${coveredCount} covered` : ''}
-        </div>`;
+    <div class="set-icon">${iconSvg}</div>
+    <h3 class="set-title">${escHtml(set.title)}</h3>
+    <p class="set-desc">${escHtml(set.desc)}</p>
+    <div class="set-progress-mini">
+      ${totalScenarios} situations${viewedCount > 0 ? ` · ${viewedCount} opened` : ''}${coveredCount > 0 ? ` · ${coveredCount} covered` : ''}
+    </div>`;
         container.appendChild(el);
       });
+
+      updateDiscussionProgress();
+    }
+
+    function updateDiscussionProgress() {
+      const scenarios = discussionSets.flatMap(set => set.scenarios);
+      const viewed = scenarios.filter(s => progress.viewed.has(s.id)).length;
+      const covered = scenarios.filter(s => progress.covered.has(s.id)).length;
+
+      const vEl = document.getElementById('disc-viewed-count');
+      const cEl = document.getElementById('disc-covered-count');
+      const textEl = document.getElementById('disc-progress-text');
+
+      if (viewed > 0 && vEl) {
+        vEl.style.display = 'inline-flex';
+        vEl.querySelector('span').textContent = `${viewed} opened`;
+      } else if (vEl) {
+        vEl.style.display = 'none';
+      }
+
+      if (covered > 0 && cEl) {
+        cEl.style.display = 'inline-flex';
+        cEl.querySelector('span').textContent = `${covered} covered`;
+      } else if (cEl) {
+        cEl.style.display = 'none';
+      }
+
+      if (viewed === 0 && textEl) {
+        textEl.textContent = 'Choose a set below — open any situation that interests you.';
+      } else if (textEl) {
+        textEl.textContent = '';
+      }
     }
 
     function getSetIconSvg(type, active) {
       const col = active ? '#fff' : 'var(--accent)';
-      if (type === 'misfire') {
+
+      if (type === 'react') {
         return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" stroke="${col}" stroke-width="1.4"/>
-        <path d="M10 6v5M10 13.5v.5" stroke="${col}" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>`;
-      }
-      if (type === 'ideas') {
-        return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M10 3a5 5 0 014 8 3 3 0 01-4 2.83A3 3 0 016 11a5 5 0 014-8z" stroke="${col}" stroke-width="1.4"/>
-        <path d="M8 17h4M9 14.5v2.5M11 14.5v2.5" stroke="${col}" stroke-width="1.3" stroke-linecap="round"/>
-      </svg>`;
-      }
-      return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <circle cx="10" cy="10" r="3" stroke="${col}" stroke-width="1.4"/>
-      <path d="M10 2v3M10 15v3M2 10h3M15 10h3" stroke="${col}" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M3.4 5A2.4 2.4 0 015.8 2.6h8.4A2.4 2.4 0 0116.6 5v5.8a2.4 2.4 0 01-2.4 2.4h-3.4L7.2 16v-2.8H5.8a2.4 2.4 0 01-2.4-2.4V5Z"
+        stroke="${col}" stroke-width="1.45" stroke-linejoin="round"/>
+      <path d="M6.5 8.2h2.1l1.1-1.8l1.3 3.7l1.1-1.9h1.5"
+        stroke="${col}" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
+      }
+
+      if (type === 'explain') {
+        return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M10 3a5 5 0 014 8 3 3 0 01-4 2.83A3 3 0 016 11a5 5 0 014-8z" stroke="${col}" stroke-width="1.4"/>
+      <path d="M8 17h4M9 14.5v2.5M11 14.5v2.5" stroke="${col}" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>`;
+      }
+
+      if (type === 'reflect') {
+        return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M10 3.2L16 6.6L10 10L4 6.6L10 3.2Z"
+        stroke="${col}" stroke-width="1.35" stroke-linejoin="round"/>
+      <path d="M4.4 10L10 13.2L15.6 10"
+        stroke="${col}" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M4.4 13.2L10 16.4L15.6 13.2"
+        stroke="${col}" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+      }
+
+      return '';
     }
 
     function openSet(setId) {
@@ -4366,9 +4322,7 @@
       renderDiscussionSets();
     }
 
-    // ============================================================
-    // KEY LANGUAGE DRAWER
-    // ============================================================
+    // ---- KEY LANGUAGE DRAWER ----
 
     function openVocabBank() {
       renderVocabBank();
@@ -4389,13 +4343,11 @@
 
       const totalCount = clCards.length + discussionSets.reduce((acc, s) => acc + s.scenarios.length, 0);
 
-      // Header intro
       const intro = document.createElement('div');
       intro.innerHTML = `<p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.3rem;">${totalCount} upgrade terms</p>
         <p style="font-size:0.8rem;color:var(--stone-dark);line-height:1.5;padding-bottom:0.8rem;border-bottom:1px solid var(--stone-light);">Higher-level expressions from Cultural Lens and Discussion — with definitions and natural in-action examples.</p>`;
       list.appendChild(intro);
 
-      // ---- Cultural Lens section ----
       const clLabel = document.createElement('p');
       clLabel.className = 'vb-section-label';
       clLabel.textContent = 'Cultural Lens';
@@ -4413,7 +4365,6 @@
         list.appendChild(entry);
       });
 
-      // ---- Discussion sets ----
       discussionSets.forEach(set => {
         const setLabel = document.createElement('p');
         setLabel.className = 'vb-section-label';
@@ -4434,9 +4385,7 @@
       });
     }
 
-    // ============================================================
-    // UTILITIES
-    // ============================================================
+    // ---- UTILITIES ----
 
     function escHtml(str) {
       return String(str)
@@ -4457,7 +4406,6 @@
         if (document.getElementById('cl-modal-overlay').classList.contains('open')) closeModal();
         if (document.getElementById('vb-drawer').classList.contains('open')) closeVocabBank();
         if (document.getElementById('session-modal-overlay').classList.contains('open')) closeSessionModal();
-        // Close any open upgrade panels
         document.querySelectorAll('.upgrade-panel.open').forEach(p => {
           p.classList.remove('open');
           const cid = p.id.replace('up-', '');
@@ -4479,15 +4427,31 @@
       }
     });
 
-    // ============================================================
-    // INIT
-    // ============================================================
+    // ---- INIT ----
 
     function init() {
+      // Apply module config to cover and page title
+      applyCoverConfig();
+      // Calculate and inject count labels from data arrays
+      applyDerivedLabels();
+      // Render all desktop navs from NAV_ITEMS config
+      renderNav('nav-orientation', 'view-orientation');
+      renderNav('nav-cultural-lens', 'view-cultural-lens');
+      renderNav('nav-discussion', 'view-discussion');
+      renderNav('nav-reflection', 'view-reflection');
+      // Render mobile headers for inner views
+      renderMobileHeader('mob-header-cultural-lens', 'cultural-lens', 'Cultural Lens');
+      renderMobileHeader('mob-header-discussion', 'discussion', 'Discussion');
+      renderMobileHeader('mob-header-reflection', 'reflection', 'Reflection');
+      // Render shared mobile drawer nav
+      renderMobileDrawerNav();
+      // Stamp subject icon into all brand slots (runs after nav HTML is injected)
       renderSubjectIcons();
+      // Load sessions and progress from localStorage
       loadSessions();
       loadProgress();
       updateSessionUI();
+      // Render content grids
       renderCLGrid();
       renderDiscussionSets();
     }
