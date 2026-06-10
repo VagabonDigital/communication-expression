@@ -2782,7 +2782,7 @@
                 <path d="M3 5l1.5 1.5L7 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
                   stroke-linejoin="round" />
               </svg>
-              <span>0 opened</span>
+              <span>0 opened</span>s
             </span>
             <span class="progress-pill covered" id="disc-covered-count" style="display:none">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -4417,8 +4417,10 @@
 
     // Keyboard accessibility
     document.addEventListener('keydown', (e) => {
+      const clModalOpen = document.getElementById('cl-modal-overlay').classList.contains('open');
+
       if (e.key === 'Escape') {
-        if (document.getElementById('cl-modal-overlay').classList.contains('open')) closeModal();
+        if (clModalOpen) closeModal();
         if (document.getElementById('vb-drawer').classList.contains('open')) closeVocabBank();
         if (document.getElementById('session-modal-overlay').classList.contains('open')) closeSessionModal();
         document.querySelectorAll('.upgrade-panel.open').forEach(p => {
@@ -4427,6 +4429,22 @@
           const c = document.getElementById(`uc-${cid}`);
           if (c) { c.classList.remove('open'); c.setAttribute('aria-expanded', 'false'); }
         });
+      }
+
+      if (clModalOpen && e.key === 'ArrowRight') {
+        const nextBtn = document.getElementById('modal-next-btn');
+        if (!nextBtn.disabled) {
+          e.preventDefault();
+          navigateModal(1);
+        }
+      }
+
+      if (clModalOpen && e.key === 'ArrowLeft') {
+        const prevBtn = document.getElementById('modal-prev-btn');
+        if (!prevBtn.disabled) {
+          e.preventDefault();
+          navigateModal(-1);
+        }
       }
     });
 
