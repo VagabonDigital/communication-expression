@@ -48,6 +48,9 @@
       --viewed-bg: #f0f7f6;
       --covered-bg: #d6eae8;
       --covered-acc: #4a7c78;
+      --danger-bg: #fef2f2;
+      --danger-text: #dc2626;
+      --danger-border: #fca5a5;
       --white: #ffffff;
       --shadow-sm: 0 1px 4px rgba(30, 27, 22, 0.07);
       --shadow-md: 0 4px 16px rgba(30, 27, 22, 0.10);
@@ -290,7 +293,7 @@
       min-width: 155px;
       font-family: var(--font-body);
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.02em;
       cursor: pointer;
       transition: var(--transition);
@@ -1976,9 +1979,9 @@
     }
 
     .session-item-btn.danger:hover {
-      background: #fef2f2;
-      color: #dc2626;
-      border-color: #fca5a5;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: var(--danger-border);
     }
 
     .session-new-form {
@@ -2772,7 +2775,7 @@
             expression, misunderstanding, intention, and what helps people feel heard and understood. Choose a set to
             begin.</p>
           <div class="progress-strip">
-            <span id="disc-progress-text">Choose a set below — open any situation that interests you.</span>
+            <span id="disc-progress-text">Choose a set below — open anything that interests you.</span>
             <span class="progress-pill viewed" id="disc-viewed-count" style="display:none">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                 <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.2" />
@@ -3023,9 +3026,33 @@
       id: 'communication-expression',
       title: 'Communication & Expression',
       titleHtml: 'Communication<br>&amp; <em>Expression</em>',
-      shortTitle: 'Comm. & Expression',
+      navTitle: 'Communication',
       coverHook: 'How tone, timing, silence, and small social signals change what people really mean — across cultures and everyday life.',
       bgImage: 'https://as1.ftcdn.net/jpg/03/71/98/22/1000_F_371982277_7nj9Ex7pVFD3tYDewVz9ViBLc54Kb0rZ.jpg',
+      labels: {
+        culturalLensUnitSingular: 'culture',
+        culturalLensUnitPlural: 'cultures',
+        discussionUnitSingular: 'situation',
+        discussionUnitPlural: 'situations',
+        vocabIntro: 'Higher-level expressions from this subject — with definitions and natural in-action examples.'
+      },
+      iconSvg: `<svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 58C31 42 41 42 50 54C59 66 69 66 78 50"
+        stroke="#2D8F87"
+        stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M28 38C36 29 45 27 54 32"
+        stroke="#1C2B4A"
+        stroke-width="6"
+        stroke-linecap="round"
+        opacity="0.82"/>
+  <path d="M47 76C56 80 66 78 74 70"
+        stroke="#5EC8F2"
+        stroke-width="6"
+        stroke-linecap="round"
+        opacity="0.9"/>
+  <circle cx="50" cy="54" r="5.5" fill="#1C2B4A"/>
+</svg>`,
     };
 
     // ============================================================
@@ -3104,25 +3131,6 @@
     // Edit clCards and discussionSets to change what appears in
     // the Cultural Lens grid and Discussion view respectively.
     // ============================================================
-
-    // Subject identity icon used in the desktop and mobile header
-    const SUBJECT_ICON_SVG = `<svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 58C31 42 41 42 50 54C59 66 69 66 78 50"
-        stroke="#2D8F87"
-        stroke-width="7"
-        stroke-linecap="round"/>
-  <path d="M28 38C36 29 45 27 54 32"
-        stroke="#1C2B4A"
-        stroke-width="6"
-        stroke-linecap="round"
-        opacity="0.82"/>
-  <path d="M47 76C56 80 66 78 74 70"
-        stroke="#5EC8F2"
-        stroke-width="6"
-        stroke-linecap="round"
-        opacity="0.9"/>
-  <circle cx="50" cy="54" r="5.5" fill="#1C2B4A"/>
-</svg>`;
 
     // Sparkle/polish SVG icon used in all Upgrade chips
     const UPGRADE_ICON_SVG = `<svg class="upgrade-chip-icon" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3520,8 +3528,9 @@
     // ============================================================
     // TEMPLATE LOGIC
     // Everything below is generic template code. When duplicating
-    // this module, only the MODULE config, NAV_ITEMS icons/labels,
-    // and the subject content above need to change.
+    // this module, the expected edits are MODULE config, visible
+    // subject copy in the HTML, clCards, and discussionSets.
+    // NAV_ITEMS and template functions should usually stay unchanged.
     // ============================================================
 
     // ---- STATE ----
@@ -3604,7 +3613,7 @@
 
     // ---- LABELS CALCULATED FROM DATA ----
 
-    // Returns a human-readable count label (e.g. "Eight cultures")
+    // Returns a human-readable count label (e.g. "Eight items")
     function countLabel(n) {
       const words = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
         'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen', 'Twenty'];
@@ -3612,17 +3621,18 @@
     }
 
     function applyDerivedLabels() {
-      // Cultural Lens path label
       const clCount = clCards.length;
       const clLabel = document.getElementById('path-label-cl');
-      if (clLabel) clLabel.textContent = `${countLabel(clCount)} culture${clCount !== 1 ? 's' : ''}`;
+      if (clLabel) {
+        clLabel.textContent = `${countLabel(clCount)} ${clCount === 1 ? MODULE.labels.culturalLensUnitSingular : MODULE.labels.culturalLensUnitPlural}`;
+      }
 
-      // Discussion path label (total scenarios across all sets)
       const totalScenarios = discussionSets.reduce((acc, s) => acc + s.scenarios.length, 0);
       const discLabel = document.getElementById('path-label-disc');
-      if (discLabel) discLabel.textContent = `${countLabel(totalScenarios)} situation${totalScenarios !== 1 ? 's' : ''}`;
+      if (discLabel) {
+        discLabel.textContent = `${countLabel(totalScenarios)} ${totalScenarios === 1 ? MODULE.labels.discussionUnitSingular : MODULE.labels.discussionUnitPlural}`;
+      }
 
-      // Orientation eyebrow
       const orientEyebrow = document.getElementById('orient-eyebrow');
       if (orientEyebrow) orientEyebrow.textContent = MODULE.title;
     }
@@ -3679,7 +3689,7 @@
       container.innerHTML = `<nav class="top-nav">
         <div class="nav-brand" onclick="goToView('view-orientation')">
           <div class="nav-brand-icon" aria-hidden="true"></div>
-          <span class="nav-brand-text">${escHtml(MODULE.title)}</span>
+          <span class="nav-brand-text">${escHtml(MODULE.navTitle || MODULE.title)}</span>
         </div>
         <div class="nav-links">${links}</div>
         <div class="nav-actions">
@@ -3738,7 +3748,7 @@
     // Inject subject icons into all .nav-brand-icon elements
     function renderSubjectIcons() {
       document.querySelectorAll('.nav-brand-icon').forEach(icon => {
-        icon.innerHTML = SUBJECT_ICON_SVG;
+        icon.innerHTML = MODULE.iconSvg;
       });
     }
 
@@ -4136,7 +4146,7 @@
     <h3 class="set-title">${escHtml(set.title)}</h3>
     <p class="set-desc">${escHtml(set.desc)}</p>
     <div class="set-progress-mini">
-      ${totalScenarios} situations${viewedCount > 0 ? ` · ${viewedCount} opened` : ''}${coveredCount > 0 ? ` · ${coveredCount} covered` : ''}
+      ${totalScenarios} ${totalScenarios === 1 ? MODULE.labels.discussionUnitSingular : MODULE.labels.discussionUnitPlural}${viewedCount > 0 ? ` · ${viewedCount} opened` : ''}${coveredCount > 0 ? ` · ${coveredCount} covered` : ''}
     </div>`;
         container.appendChild(el);
       });
@@ -4168,7 +4178,7 @@
       }
 
       if (viewed === 0 && textEl) {
-        textEl.textContent = 'Choose a set below — open any situation that interests you.';
+        textEl.textContent = `Choose a set below — open any ${MODULE.labels.discussionUnitSingular} that interests you.`;
       } else if (textEl) {
         textEl.textContent = '';
       }
@@ -4350,7 +4360,7 @@
 
       const intro = document.createElement('div');
       intro.innerHTML = `<p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.3rem;">${totalCount} upgrade terms</p>
-        <p style="font-size:0.8rem;color:var(--stone-dark);line-height:1.5;padding-bottom:0.8rem;border-bottom:1px solid var(--stone-light);">Higher-level expressions from Cultural Lens and Discussion — with definitions and natural in-action examples.</p>`;
+        <p style="font-size:0.8rem;color:var(--stone-dark);line-height:1.5;padding-bottom:0.8rem;border-bottom:1px solid var(--stone-light);">${escHtml(MODULE.labels.vocabIntro)}</p>`;
       list.appendChild(intro);
 
       const clLabel = document.createElement('p');
@@ -4445,9 +4455,10 @@
       renderNav('nav-discussion', 'view-discussion');
       renderNav('nav-reflection', 'view-reflection');
       // Render mobile headers for inner views
-      renderMobileHeader('mob-header-cultural-lens', 'cultural-lens', 'Cultural Lens');
-      renderMobileHeader('mob-header-discussion', 'discussion', 'Discussion');
-      renderMobileHeader('mob-header-reflection', 'reflection', 'Reflection');
+      const getNavLabel = (id) => NAV_ITEMS.find(item => item.id === id)?.label || '';
+      renderMobileHeader('mob-header-cultural-lens', 'cultural-lens', getNavLabel('cultural-lens'));
+      renderMobileHeader('mob-header-discussion', 'discussion', getNavLabel('discussion'));
+      renderMobileHeader('mob-header-reflection', 'reflection', getNavLabel('reflection'));
       // Render shared mobile drawer nav
       renderMobileDrawerNav();
       // Stamp subject icon into all brand slots (runs after nav HTML is injected)
