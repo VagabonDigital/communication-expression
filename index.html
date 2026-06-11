@@ -14,6 +14,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Communication & Expression</title>
+  <!-- Shared Human Compass favicon. Subject icons live in MODULE.iconSvg. -->
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 4L96 50L50 96L4 50Z' fill='%235EC8F2' stroke='%231E8CB8' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M50 18L82 50L50 82L18 50Z' fill='%23EAFBFF' stroke='%23FFFFFF' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 34L66 50L50 66L34 50Z' fill='%2347BDE8' stroke='%231E8CB8' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M50 18L50 34M82 50L66 50M50 82L50 66M18 50L34 50' stroke='%235EC8F2' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -270,6 +271,25 @@
       line-height: 1.7;
       margin-bottom: 2.2rem;
       max-width: 44ch;
+    }
+
+    .cover-returning {
+      display: none;
+      margin-top: -0.75rem;
+      margin-bottom: 1.35rem;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.68);
+      font-weight: 300;
+    }
+
+    .cover-returning.is-visible {
+      display: block;
+    }
+
+    .cover-returning-name {
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: inherit;
     }
 
     .cover-actions {
@@ -960,6 +980,36 @@
       padding: 1.8rem 2rem 1.4rem;
       border-bottom: 1px solid var(--stone-light);
       flex-shrink: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .modal-heading {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .modal-close-x {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--stone-light);
+      background: var(--white);
+      color: var(--ink-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+      margin-top: -0.25rem;
+    }
+
+    .modal-close-x:hover {
+      background: var(--cream-warm);
+      color: var(--ink);
     }
 
     .modal-location {
@@ -1306,7 +1356,8 @@
       background: var(--cream);
     }
 
-    .modal-footer-nav {
+    .modal-footer-nav,
+    .modal-footer-actions {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -1684,6 +1735,161 @@
 
     .vb-close-btn:hover {
       background: var(--cream-warm);
+    }
+
+    .vb-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .vb-print-btn {
+      border: 1px solid var(--stone-light);
+      background: var(--cream);
+      color: var(--ink-light);
+      border-radius: var(--radius-sm);
+      padding: 0.42rem 0.72rem;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .vb-print-btn:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: rgba(var(--accent-rgb), 0.3);
+    }
+
+    .vb-print-area {
+      margin-top: 1.25rem;
+      padding-top: 0.25rem;
+    }
+
+    .vb-print-btn-bottom {
+      width: 100%;
+      padding: 0.58rem 0.8rem;
+      background: transparent;
+      color: var(--stone-dark);
+      border-color: rgba(200, 191, 176, 0.65);
+      font-weight: 500;
+    }
+
+    .vb-print-btn-bottom:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: rgba(var(--accent-rgb), 0.3);
+    }
+
+    .print-key-language {
+      display: none;
+    }
+
+    @media print {
+      @page {
+        margin: 14mm;
+      }
+
+      html,
+      body {
+        min-height: auto !important;
+        background: #fff !important;
+        overflow: visible !important;
+      }
+
+      body::before,
+      body::after {
+        display: none !important;
+        content: none !important;
+      }
+
+      body.printing-key-language>*:not(#print-key-language) {
+        display: none !important;
+      }
+
+      body.printing-key-language #print-key-language {
+        display: block !important;
+        color: #1e1b16;
+        background: #fff;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 11pt;
+        line-height: 1.45;
+      }
+
+      .print-doc-kicker {
+        font-family: Arial, sans-serif;
+        font-size: 8.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #4a7c78;
+        margin: 0 0 2.5mm;
+      }
+
+      .print-doc-title {
+        font-size: 24pt;
+        font-weight: 500;
+        margin: 0 0 3mm;
+      }
+
+      .print-doc-intro {
+        max-width: 145mm;
+        font-size: 11pt;
+        line-height: 1.5;
+        color: #4f4941;
+        margin: 0 0 4mm;
+      }
+
+      .print-doc-meta {
+        font-family: Arial, sans-serif;
+        font-size: 8.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #777;
+        margin: 0 0 7mm;
+      }
+
+      .print-group-title {
+        font-size: 13pt;
+        font-weight: 500;
+        margin: 7mm 0 3mm;
+        border-bottom: 1px solid #d8d2c8;
+        padding-bottom: 1.5mm;
+      }
+
+      .print-entry {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 4mm;
+        padding-bottom: 3mm;
+        border-bottom: 1px solid #eee8df;
+      }
+
+      .print-entry-term {
+        font-size: 11.5pt;
+        font-weight: 700;
+        margin: 0 0 1mm;
+      }
+
+      .print-entry-type {
+        font-family: Arial, sans-serif;
+        font-size: 8pt;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: #777;
+        margin-left: 2mm;
+      }
+
+      .print-entry-def {
+        margin: 0 0 1.5mm;
+      }
+
+      .print-entry-example {
+        margin: 0;
+        color: #555;
+        font-style: italic;
+      }
     }
 
     .vb-list {
@@ -2473,7 +2679,33 @@
       }
 
       .modal-footer {
-        padding: 0.9rem 1.3rem;
+        padding: 0.8rem 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.55rem;
+      }
+
+      .modal-footer-nav {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.55rem;
+      }
+
+      .modal-footer-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .modal-footer-nav .btn-ghost,
+      .modal-footer-actions .btn-covered {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .modal-footer-close {
+        display: none;
       }
 
       .vb-list {
@@ -2618,6 +2850,7 @@
       </div>
       <h1 class="cover-title" id="cover-title"></h1>
       <p class="cover-hook" id="cover-hook"></p>
+      <p class="cover-returning" id="cover-returning"></p>
       <div class="cover-actions">
         <button class="btn-begin" onclick="beginModule()">
           Begin lesson
@@ -2634,11 +2867,14 @@
      VIEW 2: ORIENTATION
      ============================================================ -->
   <div id="view-orientation" class="view view-inner-bg">
+    <!-- Mobile header injected by renderMobileHeader('overview') -->
+    <div id="mob-header-orientation"></div>
     <!-- Desktop nav injected by renderNav('view-orientation') -->
     <div id="nav-orientation"></div>
 
     <div class="orientation-wrap">
       <div class="section-stage">
+        <!-- Per-subject content: Overview intro -->
         <div class="subject-intro-block">
           <p class="section-eyebrow" id="orient-eyebrow"></p>
           <h1>How we speak shapes what people hear</h1>
@@ -2649,6 +2885,7 @@
             and connection.</p>
         </div>
 
+        <!-- Per-subject content: Overview path cards -->
         <div class="main-paths">
           <div class="main-path-card" onclick="goToView('view-cultural-lens')">
             <div class="path-icon">
@@ -2726,6 +2963,7 @@
 
     <div class="section-wrap">
       <div class="section-stage">
+        <!-- Per-subject content: Cultural Lens section header -->
         <div class="section-header">
           <p class="section-eyebrow">Cultural Lens</p>
           <h2>Communication rules across cultures</h2>
@@ -2767,6 +3005,7 @@
 
     <div class="section-wrap">
       <div class="section-stage">
+        <!-- Per-subject content: Discussion section header -->
         <div class="section-header">
           <p class="section-eyebrow">Discussion</p>
           <h2>Real moments, real language</h2>
@@ -2782,7 +3021,7 @@
                 <path d="M3 5l1.5 1.5L7 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
                   stroke-linejoin="round" />
               </svg>
-              <span>0 opened</span>s
+              <span>0 opened</span>
             </span>
             <span class="progress-pill covered" id="disc-covered-count" style="display:none">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -2821,6 +3060,7 @@
 
     <div class="reflection-wrap">
       <div class="section-stage">
+        <!-- Per-subject content: Reflection -->
         <div class="reflection-icon-large">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
             <path d="M14 3L14 25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
@@ -2903,8 +3143,15 @@
   <div class="modal-overlay" id="cl-modal-overlay" onclick="handleModalOverlayClick(event)">
     <div class="modal-panel" id="cl-modal-panel">
       <div class="modal-header">
-        <p class="modal-location" id="modal-location"></p>
-        <h2 class="modal-title" id="modal-title"></h2>
+        <div class="modal-heading">
+          <p class="modal-location" id="modal-location"></p>
+          <h2 class="modal-title" id="modal-title"></h2>
+        </div>
+        <button class="modal-close-x" onclick="closeModal()" aria-label="Close modal">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <path d="M3 3l9 9M12 3l-9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </button>
       </div>
       <div class="modal-body">
         <p class="modal-insight" id="modal-insight"></p>
@@ -2952,7 +3199,7 @@
             </svg>
           </button>
         </div>
-        <div style="display:flex;gap:0.5rem;align-items:center">
+        <div class="modal-footer-actions">
           <button class="btn-covered" onclick="markCLCovered()">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M2 6.5l3.5 3.5L11 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
@@ -2960,7 +3207,7 @@
             </svg>
             Mark covered &amp; close
           </button>
-          <button class="btn-ghost" onclick="closeModal()">Close</button>
+          <button class="btn-ghost modal-footer-close" onclick="closeModal()">Close</button>
         </div>
       </div>
     </div>
@@ -2973,14 +3220,18 @@
   <div class="vb-drawer" id="vb-drawer">
     <div class="vb-header">
       <h3>Key Language</h3>
-      <button class="vb-close-btn" onclick="closeVocabBank()">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-        </svg>
-      </button>
+      <div class="vb-actions">
+        <button class="vb-close-btn" onclick="closeVocabBank()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
     </div>
     <div class="vb-list" id="vb-list"></div>
   </div>
+
+  <div id="print-key-language" class="print-key-language" aria-hidden="true"></div>
 
   <!-- ============================================================
      SESSION MODAL
@@ -3028,6 +3279,7 @@
       titleHtml: 'Communication<br>&amp; <em>Expression</em>',
       navTitle: 'Communication',
       coverHook: 'How tone, timing, silence, and small social signals change what people really mean — across cultures and everyday life.',
+      // Subject cover image. Replace with a local/licensed image before public release.
       bgImage: 'https://as1.ftcdn.net/jpg/03/71/98/22/1000_F_371982277_7nj9Ex7pVFD3tYDewVz9ViBLc54Kb0rZ.jpg',
       labels: {
         culturalLensUnitSingular: 'culture',
@@ -3139,6 +3391,8 @@
     </svg>`;
 
     // ---- CULTURAL LENS CARDS ----
+    // Each card id must stay stable. The future Atlas Hub should combine
+    // MODULE.id + card.id to track progress and connect upgrade vocabulary.
     // upgrade: { term, type, def, in_action }
     const clCards = [
       {
@@ -3320,6 +3574,10 @@
     ];
 
     // ---- DISCUSSION SETS ----
+    // Set and scenario ids must stay stable. Do not use position-based ids
+    // like set-1 or sc-1, because content may be reordered later.
+    // The future Atlas Hub should combine MODULE.id + scenario.id to track
+    // progress and connect upgrade vocabulary.
     // Each scenario has: id, preview, text, upgrade: { term, type, def, in_action }
     const discussionSets = [
       {
@@ -3467,10 +3725,10 @@
             preview: '"I\'m fine" — but the voice says something else…',
             text: 'Someone says "I\'m fine," but the way they say it sounds completely different from the words. Why do we often pick up on how someone feels from signals beyond what they actually say?',
             upgrade: {
-              term: 'tone',
+              term: 'subtext',
               type: 'noun',
-              def: 'The emotional quality or feeling behind the words someone uses — what the voice communicates beyond the literal meaning.',
-              in_action: 'The words were fine, but the tone gave everything away — she sounded tired and flat, not reassured, so I didn\'t believe the "I\'m fine" for a second.'
+              def: 'The unspoken meaning underneath what someone actually says — the real message carried by tone, timing, and what is left out.',
+              in_action: 'The subtext was impossible to miss — "I\'m fine" on the surface, but everything underneath it was saying the opposite.'
             }
           },
           {
@@ -3530,6 +3788,7 @@
     // Everything below is generic template code. When duplicating
     // this module, the expected edits are MODULE config, visible
     // subject copy in the HTML, clCards, and discussionSets.
+    // Keep MODULE.id and all card/scenario ids stable after release.
     // NAV_ITEMS and template functions should usually stay unchanged.
     // ============================================================
 
@@ -3539,7 +3798,22 @@
     let sessions = ['Default'];
     let progress = {};
     let currentModalIndex = 0;
+    let activeSetId = null;
 
+    const GLOBAL_ACTIVE_SESSION_KEY = 'human-compass::activeSession';
+
+    function getGlobalActiveSession() {
+      try {
+        const raw = localStorage.getItem(GLOBAL_ACTIVE_SESSION_KEY);
+        if (!raw) return null;
+
+        const parsed = JSON.parse(raw);
+        if (typeof parsed === 'string') return parsed;
+        return parsed?.name || parsed?.label || null;
+      } catch {
+        return null;
+      }
+    }
     function getSessionKey() {
       return `${MODULE.id}::${currentSession}`;
     }
@@ -3570,6 +3844,15 @@
       if (raw) {
         try { sessions = JSON.parse(raw); } catch { sessions = ['Default']; }
       }
+
+      const globalSession = getGlobalActiveSession();
+      if (globalSession) {
+        if (!sessions.includes(globalSession)) sessions.push(globalSession);
+        currentSession = globalSession;
+        saveSessions();
+        return;
+      }
+
       const rawCurrent = localStorage.getItem(`${MODULE.id}::currentSession`);
       if (rawCurrent && sessions.includes(rawCurrent)) {
         currentSession = rawCurrent;
@@ -3579,6 +3862,7 @@
     function saveSessions() {
       localStorage.setItem(`${MODULE.id}::sessions`, JSON.stringify(sessions));
       localStorage.setItem(`${MODULE.id}::currentSession`, currentSession);
+      localStorage.setItem(GLOBAL_ACTIVE_SESSION_KEY, JSON.stringify({ name: currentSession }));
     }
 
     function markViewed(id) {
@@ -3595,6 +3879,62 @@
       if (progress.covered.has(id)) return 'covered';
       if (progress.viewed.has(id)) return 'viewed';
       return 'default';
+    }
+
+    function registerAtlasModuleManifest() {
+      try {
+        const culturalLensItems = clCards.map(card => ({
+          type: 'cultural-lens',
+          id: card.id,
+          title: card.title,
+          label: card.location,
+          upgradeTerm: card.upgrade.term,
+          upgradeType: card.upgrade.type,
+          upgradeDef: card.upgrade.def,
+          upgradeExample: card.upgrade.in_action
+        }));
+
+        const scenarioItems = discussionSets.flatMap(set =>
+          set.scenarios.map(sc => ({
+            type: 'scenario',
+            setId: set.id,
+            setTitle: set.title,
+            id: sc.id,
+            title: sc.preview,
+            upgradeTerm: sc.upgrade.term,
+            upgradeType: sc.upgrade.type,
+            upgradeDef: sc.upgrade.def,
+            upgradeExample: sc.upgrade.in_action
+          }))
+        );
+
+        const manifest = {
+          id: MODULE.id,
+          title: MODULE.title,
+          navTitle: MODULE.navTitle || MODULE.title,
+          totalCulturalLens: clCards.length,
+          totalScenarios: discussionSets.reduce((acc, set) => acc + set.scenarios.length, 0),
+          items: [...culturalLensItems, ...scenarioItems]
+        };
+
+        localStorage.setItem(`human-compass::moduleManifest::${MODULE.id}`, JSON.stringify(manifest));
+
+        const rawIndex = localStorage.getItem('human-compass::moduleIndex');
+        const index = rawIndex ? JSON.parse(rawIndex) : [];
+        const nextIndex = index.filter(item => item.id !== MODULE.id);
+
+        nextIndex.push({
+          id: MODULE.id,
+          title: MODULE.title,
+          navTitle: MODULE.navTitle || MODULE.title,
+          totalCulturalLens: manifest.totalCulturalLens,
+          totalScenarios: manifest.totalScenarios
+        });
+
+        localStorage.setItem('human-compass::moduleIndex', JSON.stringify(nextIndex));
+      } catch {
+        // Atlas Hub data is optional. The module should still work if storage is blocked.
+      }
     }
 
     // ---- COVER ----
@@ -3777,12 +4117,29 @@
 
     function updateSessionUI() {
       const label = currentSession === 'Default' ? 'Current Session' : currentSession;
+
       const coverEl = document.getElementById('cover-session-label');
       if (coverEl) coverEl.textContent = label;
-      // Update all session span elements rendered by renderNav()
+
+      const returningEl = document.getElementById('cover-returning');
+      if (returningEl) {
+        if (currentSession === 'Default') {
+          returningEl.classList.remove('is-visible');
+          returningEl.textContent = '';
+        } else {
+          const hasProgress =
+            progress?.viewed?.size > 0 ||
+            progress?.covered?.size > 0;
+
+          returningEl.classList.add('is-visible');
+          returningEl.innerHTML = `${hasProgress ? 'Welcome back' : 'Welcome'}, <span class="cover-returning-name">${escHtml(currentSession)}</span>!`;
+        }
+      }
+
       document.querySelectorAll('[id^="nav-session-"]').forEach(el => {
         el.textContent = label;
       });
+
       const mobLabel = document.getElementById('mobile-session-label');
       if (mobLabel) mobLabel.textContent = label;
     }
@@ -3828,13 +4185,23 @@
       });
     }
 
+    function refreshProgressUI() {
+      renderCLGrid();
+      renderDiscussionSets();
+
+      if (activeSetId) {
+        const set = discussionSets.find(s => s.id === activeSetId);
+        if (set) renderScenarios(set);
+      }
+    }
+
     function switchSession(name) {
       currentSession = name;
       saveSessions();
       loadProgress();
       updateSessionUI();
       renderSessionList();
-      renderCLGrid();
+      refreshProgressUI();
     }
 
     function resetSession(name) {
@@ -3842,7 +4209,7 @@
       localStorage.removeItem(`${MODULE.id}::${name}`);
       if (name === currentSession) loadProgress();
       renderSessionList();
-      renderCLGrid();
+      refreshProgressUI();
     }
 
     function deleteSession(name) {
@@ -3853,6 +4220,7 @@
       saveSessions();
       updateSessionUI();
       renderSessionList();
+      refreshProgressUI();
     }
 
     function addSession() {
@@ -3860,13 +4228,16 @@
       const name = input.value.trim();
       if (!name) return;
       if (sessions.includes(name)) { alert('A session with that name already exists.'); return; }
+
       sessions.push(name);
       currentSession = name;
       saveSessions();
       loadProgress();
       updateSessionUI();
+
       input.value = '';
       renderSessionList();
+      refreshProgressUI();
     }
 
     // ---- MOBILE DRAWER ----
@@ -4019,8 +4390,19 @@
       const vEl = document.getElementById('cl-viewed-count');
       const cEl = document.getElementById('cl-covered-count');
       const textEl = document.getElementById('cl-progress-text');
-      if (viewed > 0 && vEl) { vEl.style.display = 'inline-flex'; vEl.querySelector('span').textContent = `${viewed} viewed`; }
-      if (covered > 0 && cEl) { cEl.style.display = 'inline-flex'; cEl.querySelector('span').textContent = `${covered} covered`; }
+      if (viewed > 0 && vEl) {
+        vEl.style.display = 'inline-flex';
+        vEl.querySelector('span').textContent = `${viewed} viewed`;
+      } else if (vEl) {
+        vEl.style.display = 'none';
+      }
+
+      if (covered > 0 && cEl) {
+        cEl.style.display = 'inline-flex';
+        cEl.querySelector('span').textContent = `${covered} covered`;
+      } else if (cEl) {
+        cEl.style.display = 'none';
+      }
       if (viewed === 0 && textEl) { textEl.textContent = 'Explore the cards below — choose any that interest you.'; }
       else if (textEl) { textEl.textContent = ''; }
     }
@@ -4126,8 +4508,6 @@
     }
 
     // ---- DISCUSSION SETS ----
-
-    let activeSetId = null;
 
     function renderDiscussionSets() {
       const container = document.getElementById('discussion-sets');
@@ -4391,11 +4771,81 @@
           const entry = document.createElement('div');
           entry.className = 'vb-entry';
           entry.innerHTML = `
-            <p class="vb-entry-word">${escHtml(up.term)}</p>
-            <p class="vb-entry-type">${escHtml(up.type)}</p>
-            <p class="vb-entry-def">${escHtml(up.def)}</p>
-            <p class="vb-entry-example">${escHtml(up.in_action)}</p>`;
+      <p class="vb-entry-word">${escHtml(up.term)}</p>
+      <p class="vb-entry-type">${escHtml(up.type)}</p>
+      <p class="vb-entry-def">${escHtml(up.def)}</p>
+      <p class="vb-entry-example">${escHtml(up.in_action)}</p>`;
           list.appendChild(entry);
+        });
+      });
+
+      const printArea = document.createElement('div');
+      printArea.className = 'vb-print-area';
+      printArea.innerHTML = `
+  <button class="vb-print-btn vb-print-btn-bottom" onclick="printKeyLanguage()">
+    Print / Save PDF
+  </button>`;
+      list.appendChild(printArea);
+    }
+
+    function printKeyLanguage() {
+      const printArea = document.getElementById('print-key-language');
+      if (!printArea) return;
+
+      const groups = [
+        {
+          title: 'Cultural Lens',
+          entries: clCards.map(card => card.upgrade)
+        },
+        ...discussionSets.map(set => ({
+          title: set.title,
+          entries: set.scenarios.map(sc => sc.upgrade)
+        }))
+      ];
+
+      const totalCount = groups.reduce((acc, group) => acc + group.entries.length, 0);
+
+      printArea.innerHTML = `
+    <div class="print-doc">
+      <p class="print-doc-kicker">Human Compass · Key Language</p>
+      <h1 class="print-doc-title">${escHtml(MODULE.title)}</h1>
+      <p class="print-doc-intro">${escHtml(MODULE.labels.vocabIntro)}</p>
+      <p class="print-doc-meta">${totalCount} upgrade terms</p>
+      ${groups.map(group => `
+        <section>
+          <h2 class="print-group-title">${escHtml(group.title)}</h2>
+          ${group.entries.map(up => `
+            <div class="print-entry">
+              <p class="print-entry-term">
+                ${escHtml(up.term)}
+                <span class="print-entry-type">${escHtml(up.type)}</span>
+              </p>
+              <p class="print-entry-def">${escHtml(up.def)}</p>
+              <p class="print-entry-example">${escHtml(up.in_action)}</p>
+            </div>
+          `).join('')}
+        </section>
+      `).join('')}
+    </div>
+  `;
+
+      const originalTitle = document.title;
+      document.title = `${MODULE.title} — Key Language`;
+
+      document.body.classList.add('printing-key-language');
+
+      const cleanupPrint = () => {
+        document.body.classList.remove('printing-key-language');
+        document.title = originalTitle;
+        printArea.innerHTML = '';
+        window.removeEventListener('afterprint', cleanupPrint);
+      };
+
+      window.addEventListener('afterprint', cleanupPrint);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.print();
         });
       });
     }
@@ -4423,6 +4873,8 @@
         if (clModalOpen) closeModal();
         if (document.getElementById('vb-drawer').classList.contains('open')) closeVocabBank();
         if (document.getElementById('session-modal-overlay').classList.contains('open')) closeSessionModal();
+        if (document.getElementById('mobile-drawer').classList.contains('open')) closeMobileDrawer();
+
         document.querySelectorAll('.upgrade-panel.open').forEach(p => {
           p.classList.remove('open');
           const cid = p.id.replace('up-', '');
@@ -4474,6 +4926,7 @@
       renderNav('nav-reflection', 'view-reflection');
       // Render mobile headers for inner views
       const getNavLabel = (id) => NAV_ITEMS.find(item => item.id === id)?.label || '';
+      renderMobileHeader('mob-header-orientation', 'overview', getNavLabel('overview'));
       renderMobileHeader('mob-header-cultural-lens', 'cultural-lens', getNavLabel('cultural-lens'));
       renderMobileHeader('mob-header-discussion', 'discussion', getNavLabel('discussion'));
       renderMobileHeader('mob-header-reflection', 'reflection', getNavLabel('reflection'));
@@ -4481,6 +4934,8 @@
       renderMobileDrawerNav();
       // Stamp subject icon into all brand slots (runs after nav HTML is injected)
       renderSubjectIcons();
+      // Register lightweight module data for the future Atlas Hub
+      registerAtlasModuleManifest();
       // Load sessions and progress from localStorage
       loadSessions();
       loadProgress();
