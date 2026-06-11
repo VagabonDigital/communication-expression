@@ -401,13 +401,34 @@
       flex-shrink: 0;
     }
 
-    .nav-brand-text {
+    .nav-brand-copy {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      line-height: 1.12;
+    }
+
+    .nav-brand-system {
       font-family: var(--font-body);
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       font-weight: 600;
       color: var(--ink);
       letter-spacing: -0.01em;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-brand-subject {
+      margin-top: 0.08rem;
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--stone-dark);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .nav-links {
@@ -1199,15 +1220,31 @@
       margin-bottom: 0.2rem;
     }
 
-    /* The horizontal action row: chip left, button right */
+    /* The action row: upgrade content belongs to the chip; completion stays separate */
     .scenario-action-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
       gap: 0.75rem;
     }
 
-    /* The upgrade panel inside a scenario sits below the action row */
+    .scenario-upgrade-slot {
+      min-width: 0;
+    }
+
+    .scenario-upgrade-slot .upgrade-chip {
+      max-width: 100%;
+    }
+
+    .scenario-upgrade-wrap:has(.upgrade-panel.open) .scenario-action-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .scenario-upgrade-wrap:has(.upgrade-panel.open) .btn-mark-covered {
+      justify-self: end;
+      margin-top: 0.15rem;
+    }
+
     .scenario-upgrade-wrap .upgrade-panel {
       margin-top: 0.65rem;
       margin-bottom: 0.1rem;
@@ -1534,6 +1571,26 @@
       color: var(--ink);
     }
 
+    .btn-close-set-bottom {
+      display: none;
+      width: fit-content;
+      min-width: 10rem;
+      justify-content: center;
+      min-height: 2.65rem;
+      margin: 1rem auto 0;
+      padding: 0.6rem 1.15rem;
+      border-radius: var(--radius-md);
+      border-color: rgba(200, 191, 176, 0.7);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--ink-light);
+    }
+
+    .btn-close-set-bottom:hover {
+      background: rgba(255, 255, 255, 0.92);
+      border-color: rgba(var(--accent-rgb), 0.3);
+      color: var(--accent);
+    }
+
     .scenario-card {
       border: 1px solid var(--stone-light);
       border-radius: var(--radius-md);
@@ -1640,13 +1697,15 @@
     .btn-mark-covered {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.35rem;
-      padding: 0.45rem 1rem;
+      min-height: 2.65rem;
+      padding: 0.5rem 1.1rem;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--accent);
-      background: var(--white);
+      border: 1px solid rgba(var(--accent-rgb), 0.55);
+      background: rgba(var(--accent-pale-rgb), 0.22);
       font-family: var(--font-body);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 500;
       color: var(--accent);
       cursor: pointer;
@@ -1654,7 +1713,9 @@
     }
 
     .btn-mark-covered:hover {
-      background: var(--accent-pale);
+      background: rgba(var(--accent-pale-rgb), 0.45);
+      border-color: rgba(var(--accent-rgb), 0.72);
+      color: var(--accent);
     }
 
     .btn-mark-covered.is-covered {
@@ -2463,7 +2524,7 @@
       line-height: 1.15;
     }
 
-    .mobile-header-subject {
+    .mobile-header-system {
       font-family: var(--font-body);
       font-size: 0.84rem;
       font-weight: 600;
@@ -2474,14 +2535,13 @@
       text-overflow: ellipsis;
     }
 
-    .mobile-header-page {
+    .mobile-header-context {
       margin-top: 0.1rem;
       font-family: var(--font-body);
-      font-size: 0.66rem;
+      font-size: 0.68rem;
       font-weight: 500;
       color: var(--stone-dark);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      letter-spacing: 0.01em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -2777,20 +2837,20 @@
       }
 
       .scenarios-panel-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.65rem;
+        align-items: flex-start;
+        gap: 0.7rem;
       }
 
       .scenarios-panel-title {
-        width: 100%;
         line-height: 1.25;
       }
 
-      .btn-close-set {
-        width: 100%;
-        min-height: 2.65rem;
-        justify-content: center;
+      .scenarios-panel-header .btn-close-set {
+        display: none;
+      }
+
+      .btn-close-set-bottom {
+        display: flex;
       }
 
       .scenario-text {
@@ -2799,14 +2859,17 @@
       }
 
       .scenario-action-row {
-        display: grid;
         grid-template-columns: 1fr;
-        gap: 0.65rem;
+        gap: 0.75rem;
         align-items: stretch;
       }
 
+      .scenario-upgrade-slot {
+        min-width: 0;
+      }
+
       .scenario-action-row .upgrade-chip {
-        width: 100%;
+        width: auto;
         max-width: 100%;
         justify-content: flex-start;
         white-space: normal;
@@ -2817,7 +2880,14 @@
         width: 100%;
         min-height: 2.9rem;
         justify-content: center;
+        justify-self: stretch;
         margin-left: 0;
+      }
+
+      .scenario-upgrade-wrap:has(.upgrade-panel.open) .btn-mark-covered {
+        width: 100%;
+        justify-self: stretch;
+        margin-top: 0;
       }
 
       .make-it-real-card {
@@ -4078,7 +4148,10 @@
       container.innerHTML = `<nav class="top-nav">
         <div class="nav-brand" onclick="goToView('view-orientation')">
           <div class="nav-brand-icon" aria-hidden="true"></div>
-          <span class="nav-brand-text">${escHtml(MODULE.navTitle || MODULE.title)}</span>
+          <span class="nav-brand-copy">
+            <span class="nav-brand-system">Human Compass</span>
+            <span class="nav-brand-subject">${escHtml(MODULE.title)}</span>
+          </span>
         </div>
         <div class="nav-links">${links}</div>
         <div class="nav-actions">
@@ -4102,8 +4175,8 @@
         <div class="mobile-header-brand" onclick="goToView('view-orientation')">
           <div class="nav-brand-icon" aria-hidden="true"></div>
           <span class="mobile-header-title-block">
-            <span class="mobile-header-subject">${escHtml(MODULE.navTitle || MODULE.title)}</span>
-            <span class="mobile-header-page">${escHtml(label)}</span>
+            <span class="mobile-header-system">Human Compass</span>
+            <span class="mobile-header-context">${escHtml(MODULE.title)}</span>
           </span>
         </div>
         <div class="mobile-header-actions">
@@ -4698,17 +4771,19 @@
           <p class="scenario-text">${escHtml(sc.text)}</p>
           <div class="scenario-upgrade-wrap">
             <div class="scenario-action-row">
-              <button class="upgrade-chip" id="uc-sc-${sc.id}" onclick="toggleUpgrade('sc-${sc.id}', event)" aria-expanded="false">
-                ${UPGRADE_ICON_SVG}
-                Upgrade: ${escHtml(sc.upgrade.term)}
-              </button>
+              <div class="scenario-upgrade-slot">
+                <button class="upgrade-chip" id="uc-sc-${sc.id}" onclick="toggleUpgrade('sc-${sc.id}', event)" aria-expanded="false">
+                  ${UPGRADE_ICON_SVG}
+                  Upgrade: ${escHtml(sc.upgrade.term)}
+                </button>
+                <div class="upgrade-panel" id="up-sc-${sc.id}">
+                  <p class="upgrade-panel-term">${escHtml(sc.upgrade.term)}</p>
+                  <p class="upgrade-panel-type">${escHtml(sc.upgrade.type)}</p>
+                  <p class="upgrade-panel-def">${escHtml(sc.upgrade.def)}</p>
+                  <p class="upgrade-panel-in-action">${escHtml(sc.upgrade.in_action)}</p>
+                </div>
+              </div>
               ${coveredBtnHtml}
-            </div>
-            <div class="upgrade-panel" id="up-sc-${sc.id}">
-              <p class="upgrade-panel-term">${escHtml(sc.upgrade.term)}</p>
-              <p class="upgrade-panel-type">${escHtml(sc.upgrade.type)}</p>
-              <p class="upgrade-panel-def">${escHtml(sc.upgrade.def)}</p>
-              <p class="upgrade-panel-in-action">${escHtml(sc.upgrade.in_action)}</p>
             </div>
           </div>
         </div>`;
@@ -4736,8 +4811,19 @@
         </div>`;
         list.appendChild(mirCard);
       }
-    }
 
+      const closeSetBottom = document.createElement('button');
+      closeSetBottom.className = 'btn-close-set btn-close-set-bottom';
+      closeSetBottom.type = 'button';
+      closeSetBottom.onclick = closeSet;
+      closeSetBottom.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
+        Close set
+      `;
+      list.appendChild(closeSetBottom);
+    }
     function toggleScenario(scId, setId) {
       const card = document.getElementById(`sc-card-${scId}`);
       if (!card) return;
