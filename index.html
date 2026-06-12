@@ -22,6 +22,13 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
     rel="stylesheet">
+  <!-- Appearance mode: apply saved theme before first paint to preventF light-mode flash -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('human-compass::appearanceMode');
+      document.documentElement.dataset.theme = (saved === 'night') ? 'night' : 'light';
+    })();
+  </script>
 
   <style>
     /* ============================================================
@@ -2718,6 +2725,548 @@
     }
 
     /* ============================================================
+   APPEARANCE TOGGLE — DAY / NIGHT BUTTON
+   ============================================================ */
+
+    /* Shared base for all appearance toggle placements */
+    .appearance-toggle,
+    .cover-appearance-toggle,
+    .mobile-appearance-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    /* Desktop nav: matches .nav-keylang-btn exactly */
+    .appearance-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: 1px solid rgba(200, 191, 176, 0.42) !important;
+      background: rgba(255, 255, 255, 0.58) !important;
+      color: var(--ink-light);
+      box-shadow: 0 1px 3px rgba(30, 27, 22, 0.045);
+    }
+
+    .appearance-toggle:hover {
+      background: rgba(255, 255, 255, 0.86) !important;
+      border-color: rgba(var(--accent-rgb), 0.28) !important;
+      color: var(--accent);
+      box-shadow: 0 3px 10px rgba(30, 27, 22, 0.07);
+    }
+
+    .appearance-toggle svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    /* Cover page: shared top-right utility row */
+    .cover-utility-row {
+      position: absolute;
+      top: 1.15rem;
+      right: 1.15rem;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      max-width: calc(100% - 2.3rem);
+    }
+
+    .cover-utility-row .cover-session-btn {
+      position: static;
+      top: auto;
+      right: auto;
+      max-width: min(19rem, calc(100vw - 6rem));
+      min-width: 0;
+    }
+
+    .cover-utility-row .cover-session-btn span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cover-appearance-toggle {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important;
+      border-radius: 999px !important;
+      padding: 0 !important;
+      color: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .cover-appearance-toggle:hover {
+      background: rgba(255, 255, 255, 0.14) !important;
+      color: rgba(255, 255, 255, 0.92) !important;
+      border-color: rgba(255, 255, 255, 0.28) !important;
+    }
+
+    .cover-appearance-toggle svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    /* Mobile drawer footer: session and appearance utilities */
+    .mobile-footer-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.55rem;
+      align-items: stretch;
+    }
+
+    .mobile-footer-actions .mobile-session-btn {
+      min-width: 0;
+    }
+
+    .mobile-footer-actions .mobile-session-btn span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mobile-appearance-toggle {
+      width: 42px;
+      min-height: 42px;
+      flex-shrink: 0;
+      border-radius: var(--radius-md) !important;
+      border: 1px solid var(--stone-light) !important;
+      background: var(--cream) !important;
+      color: var(--ink-light);
+      padding: 0 !important;
+    }
+
+    .mobile-appearance-toggle:hover {
+      background: var(--accent-pale) !important;
+      color: var(--accent);
+      border-color: var(--accent-soft) !important;
+    }
+
+    .mobile-appearance-toggle svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Night mode overrides for the appearance toggles */
+    html[data-theme="night"] .appearance-toggle {
+      background: rgba(76, 66, 55, 0.78) !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      color: var(--ink-light);
+    }
+
+    html[data-theme="night"] .appearance-toggle:hover {
+      background: rgba(88, 76, 64, 0.90) !important;
+      border-color: rgba(131, 185, 179, 0.38) !important;
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .mobile-appearance-toggle {
+      background: rgba(76, 66, 55, 0.78) !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      color: var(--ink-light);
+    }
+
+    html[data-theme="night"] .mobile-appearance-toggle:hover {
+      background: rgba(88, 76, 64, 0.90) !important;
+      color: var(--accent-soft);
+      border-color: rgba(131, 185, 179, 0.38) !important;
+    }
+
+    /* ============================================================
+   APPEARANCE MODE — SOFT NIGHT
+   ============================================================ */
+
+    html[data-theme="night"] {
+      --cream: #3a332b;
+      --cream-warm: #463d33;
+      --stone-light: #6d6052;
+      --stone: #837568;
+      --stone-dark: #b9aea1;
+      --ink-faint: #746759;
+      --ink-light: #d6cabc;
+      --ink: #eee4d7;
+      --ink-dark: #f3eadf;
+      --white: #4c4237;
+      --accent: #83b9b3;
+      --accent-soft: #9fcec9;
+      --accent-pale: #3d625e;
+      --accent-dim: #344f4b;
+      --viewed-bg: #374f4b;
+      --covered-bg: #416a64;
+      --covered-acc: #a8d6d1;
+      --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.14);
+      --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.20);
+      --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.30);
+    }
+
+    html[data-theme="night"] body::before {
+      background:
+        linear-gradient(rgba(58, 51, 43, 0.38), rgba(58, 51, 43, 0.52)),
+        var(--module-bg-image, none) center center / cover no-repeat;
+    }
+
+    html[data-theme="night"] body.module-active::before {
+      filter: blur(20px) saturate(0.82) brightness(0.90);
+      opacity: 0.78;
+    }
+
+    html[data-theme="night"] body.module-active::after {
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255, 226, 190, 0.13), transparent 34%),
+        radial-gradient(circle at 82% 12%, rgba(131, 185, 179, 0.12), transparent 32%),
+        linear-gradient(160deg,
+          rgba(58, 51, 43, 0.18) 0%,
+          rgba(70, 61, 51, 0.26) 50%,
+          rgba(58, 51, 43, 0.22) 100%);
+    }
+
+    html[data-theme="night"] .top-nav,
+    html[data-theme="night"] .mobile-header {
+      background: rgba(50, 44, 37, 0.88) !important;
+      border-bottom-color: rgba(131, 117, 104, 0.50) !important;
+    }
+
+    html[data-theme="night"] .nav-brand-icon,
+    html[data-theme="night"] .path-icon,
+    html[data-theme="night"] .set-icon,
+    html[data-theme="night"] .reflection-icon-small,
+    html[data-theme="night"] .reflection-icon-large {
+      background: rgba(61, 98, 94, 0.72);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .section-stage {
+      background:
+        linear-gradient(145deg,
+          rgba(84, 73, 61, 0.70) 0%,
+          rgba(76, 66, 55, 0.64) 48%,
+          rgba(66, 57, 48, 0.58) 100%);
+      border-color: rgba(255, 255, 255, 0.17);
+      box-shadow:
+        0 18px 54px rgba(0, 0, 0, 0.22),
+        0 1px 0 rgba(255, 255, 255, 0.13) inset;
+    }
+
+    html[data-theme="night"] .section-stage .subject-intro-block,
+    html[data-theme="night"] .section-stage .section-header {
+      text-shadow: none;
+    }
+
+    html[data-theme="night"] .subject-intro-block,
+    html[data-theme="night"] .scenarios-panel-header {
+      border-bottom-color: rgba(214, 202, 188, 0.22);
+    }
+
+    html[data-theme="night"] .main-path-card,
+    html[data-theme="night"] .reflection-path-card,
+    html[data-theme="night"] .set-card,
+    html[data-theme="night"] .cl-card {
+      background: rgba(88, 76, 64, 0.64) !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    html[data-theme="night"] .main-path-card:hover,
+    html[data-theme="night"] .reflection-path-card:hover,
+    html[data-theme="night"] .set-card:hover,
+    html[data-theme="night"] .cl-card:hover {
+      background: rgba(98, 85, 71, 0.78) !important;
+      border-color: rgba(131, 185, 179, 0.48) !important;
+    }
+
+    html[data-theme="night"] .set-card.active-set {
+      background: rgba(52, 79, 75, 0.86) !important;
+      border-color: rgba(131, 185, 179, 0.62) !important;
+    }
+
+    html[data-theme="night"] .scenario-card,
+    html[data-theme="night"] .reflection-q,
+    html[data-theme="night"] .modal-panel,
+    html[data-theme="night"] .vb-drawer,
+    html[data-theme="night"] .session-modal-panel {
+      background: #4c4237 !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    html[data-theme="night"] .scenario-card-header:hover {
+      background: rgba(70, 61, 51, 0.72);
+    }
+
+    html[data-theme="night"] .scenario-body {
+      border-top-color: rgba(214, 202, 188, 0.20);
+    }
+
+    html[data-theme="night"] .scenario-card.state-viewed {
+      border-color: rgba(131, 185, 179, 0.60) !important;
+    }
+
+    html[data-theme="night"] .scenario-card.state-covered {
+      background: rgba(65, 106, 100, 0.76) !important;
+      border-color: rgba(168, 214, 209, 0.64) !important;
+    }
+
+    html[data-theme="night"] .cl-card.state-viewed {
+      background: rgba(55, 79, 75, 0.72) !important;
+      border-color: rgba(131, 185, 179, 0.58) !important;
+    }
+
+    html[data-theme="night"] .cl-card.state-covered {
+      background: rgba(65, 106, 100, 0.76) !important;
+      border-color: rgba(168, 214, 209, 0.64) !important;
+    }
+
+    html[data-theme="night"] .modal-header,
+    html[data-theme="night"] .modal-footer,
+    html[data-theme="night"] .vb-header,
+    html[data-theme="night"] .session-modal-header,
+    html[data-theme="night"] .mobile-drawer-header,
+    html[data-theme="night"] .mobile-drawer-footer {
+      background: #463d33;
+      border-color: rgba(255, 255, 255, 0.13);
+    }
+
+    html[data-theme="night"] .mobile-drawer {
+      background: #4c4237;
+    }
+
+    html[data-theme="night"] .mobile-drawer-overlay,
+    html[data-theme="night"] .vb-overlay,
+    html[data-theme="night"] .modal-overlay,
+    html[data-theme="night"] .session-modal-overlay {
+      background: rgba(20, 17, 14, 0.54);
+    }
+
+    html[data-theme="night"] .btn-ghost,
+    html[data-theme="night"] .nav-session-indicator,
+    html[data-theme="night"] .nav-keylang-btn,
+    html[data-theme="night"] .mobile-menu-btn,
+    html[data-theme="night"] .mobile-session-btn,
+    html[data-theme="night"] .vb-close-btn,
+    html[data-theme="night"] .modal-close-x,
+    html[data-theme="night"] .session-item-btn {
+      background: rgba(76, 66, 55, 0.78);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: var(--ink-light);
+    }
+
+    html[data-theme="night"] .btn-ghost:hover,
+    html[data-theme="night"] .nav-session-indicator:hover,
+    html[data-theme="night"] .nav-keylang-btn:hover,
+    html[data-theme="night"] .mobile-menu-btn:hover,
+    html[data-theme="night"] .mobile-session-btn:hover,
+    html[data-theme="night"] .vb-close-btn:hover,
+    html[data-theme="night"] .modal-close-x:hover,
+    html[data-theme="night"] .session-item-btn:hover {
+      background: rgba(88, 76, 64, 0.90);
+      color: var(--accent-soft);
+      border-color: rgba(131, 185, 179, 0.38);
+    }
+
+    html[data-theme="night"] .nav-link:hover,
+    html[data-theme="night"] .nav-link.active,
+    html[data-theme="night"] .mobile-nav-item.active {
+      background: rgba(52, 79, 75, 0.72);
+      border-color: rgba(131, 185, 179, 0.38);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .modal-question-block,
+    html[data-theme="night"] .make-it-real-card {
+      background: rgba(52, 79, 75, 0.42);
+      border-color: rgba(131, 185, 179, 0.34);
+    }
+
+    html[data-theme="night"] .make-it-real-body,
+    html[data-theme="night"] .explore-deeper-content {
+      border-top-color: rgba(131, 185, 179, 0.20);
+    }
+
+    html[data-theme="night"] .upgrade-chip {
+      background: rgba(61, 98, 94, 0.58);
+      border-color: rgba(131, 185, 179, 0.36);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .upgrade-chip:hover,
+    html[data-theme="night"] .upgrade-chip.open {
+      background: rgba(61, 98, 94, 0.82);
+      border-color: rgba(159, 206, 201, 0.55);
+    }
+
+    html[data-theme="night"] .upgrade-panel,
+    html[data-theme="night"] .upgrade-panel-in-action {
+      background: #463d33;
+      border-color: rgba(255, 255, 255, 0.13);
+    }
+
+    html[data-theme="night"] .session-item {
+      background: rgba(70, 61, 51, 0.74);
+      border-color: rgba(255, 255, 255, 0.13);
+    }
+
+    html[data-theme="night"] .session-item.active-session {
+      background: rgba(52, 79, 75, 0.76);
+      border-color: rgba(131, 185, 179, 0.48);
+    }
+
+    html[data-theme="night"] .session-input {
+      background: rgba(58, 51, 43, 0.82);
+      border-color: rgba(255, 255, 255, 0.16);
+      color: var(--ink);
+    }
+
+    html[data-theme="night"] .vb-entry,
+    html[data-theme="night"] .vb-section-label {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Night mode: soften progress/card states */
+    html[data-theme="night"] .progress-pill.viewed,
+    html[data-theme="night"] .progress-pill.covered {
+      background: rgba(61, 98, 94, 0.52);
+      color: var(--accent-soft);
+      border: 1px solid rgba(131, 185, 179, 0.22);
+    }
+
+    html[data-theme="night"] .cl-card.state-viewed {
+      background: rgba(88, 76, 64, 0.66) !important;
+      border-color: rgba(131, 185, 179, 0.36) !important;
+    }
+
+    html[data-theme="night"] .cl-card.state-covered {
+      background: rgba(88, 76, 64, 0.68) !important;
+      border-color: rgba(168, 214, 209, 0.48) !important;
+    }
+
+    html[data-theme="night"] .cl-card.state-viewed::after {
+      opacity: 0.45;
+      background: rgba(131, 185, 179, 0.75);
+    }
+
+    html[data-theme="night"] .cl-card.state-covered::after {
+      opacity: 0.65;
+      background: rgba(168, 214, 209, 0.82);
+    }
+
+    html[data-theme="night"] .cl-card.state-viewed .cl-card-state-badge {
+      background: rgba(61, 98, 94, 0.72);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .cl-card.state-covered .cl-card-state-badge {
+      background: rgba(168, 214, 209, 0.72);
+      color: #2f2923;
+    }
+
+    /* Night mode: soften primary action buttons */
+    html[data-theme="night"] .btn-primary,
+    html[data-theme="night"] .btn-covered {
+      background: rgba(131, 185, 179, 0.64);
+      border: 1px solid rgba(159, 206, 201, 0.36);
+      color: #2f2923;
+      box-shadow: none;
+    }
+
+    html[data-theme="night"] .btn-primary:hover,
+    html[data-theme="night"] .btn-covered:hover {
+      background: rgba(159, 206, 201, 0.72);
+      border-color: rgba(159, 206, 201, 0.52);
+      color: #2f2923;
+    }
+
+    html[data-theme="night"] .btn-mark-covered {
+      background: rgba(61, 98, 94, 0.46);
+      border-color: rgba(131, 185, 179, 0.34);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .btn-mark-covered:hover {
+      background: rgba(61, 98, 94, 0.62);
+      border-color: rgba(159, 206, 201, 0.48);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .btn-mark-covered.is-covered {
+      background: rgba(65, 106, 100, 0.62);
+      border-color: rgba(168, 214, 209, 0.48);
+      color: var(--accent-soft);
+    }
+
+    /* Night mode: soften scrollbars */
+    html[data-theme="night"] .modal-body,
+    html[data-theme="night"] .vb-list,
+    html[data-theme="night"] .session-modal-body,
+    html[data-theme="night"] .mobile-drawer-nav {
+      scrollbar-color: rgba(214, 202, 188, 0.38) rgba(70, 61, 51, 0.72);
+    }
+
+    html[data-theme="night"] .modal-body::-webkit-scrollbar,
+    html[data-theme="night"] .vb-list::-webkit-scrollbar,
+    html[data-theme="night"] .session-modal-body::-webkit-scrollbar,
+    html[data-theme="night"] .mobile-drawer-nav::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    html[data-theme="night"] .modal-body::-webkit-scrollbar-track,
+    html[data-theme="night"] .vb-list::-webkit-scrollbar-track,
+    html[data-theme="night"] .session-modal-body::-webkit-scrollbar-track,
+    html[data-theme="night"] .mobile-drawer-nav::-webkit-scrollbar-track {
+      background: rgba(70, 61, 51, 0.72);
+    }
+
+    html[data-theme="night"] .modal-body::-webkit-scrollbar-thumb,
+    html[data-theme="night"] .vb-list::-webkit-scrollbar-thumb,
+    html[data-theme="night"] .session-modal-body::-webkit-scrollbar-thumb,
+    html[data-theme="night"] .mobile-drawer-nav::-webkit-scrollbar-thumb {
+      background: rgba(214, 202, 188, 0.38);
+      border-radius: 999px;
+      border: 2px solid rgba(70, 61, 51, 0.72);
+    }
+
+    /* ============================================================
+   APPEARANCE MODE — SMOOTH THEME TRANSITION
+   ============================================================ */
+
+    html.theme-changing *,
+    html.theme-changing *::before,
+    html.theme-changing *::after {
+      transition:
+        background-color 1.8s ease,
+        background 1.8s ease,
+        color 1.8s ease,
+        border-color 1.8s ease,
+        box-shadow 1.8s ease,
+        opacity 1.8s ease,
+        filter 1.8s ease,
+        backdrop-filter 1.8s ease,
+        -webkit-backdrop-filter 1.8s ease !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html.theme-changing *,
+      html.theme-changing *::before,
+      html.theme-changing *::after {
+        transition: none !important;
+      }
+    }
+
+    /* ============================================================
    RESPONSIVE
    ============================================================ */
 
@@ -2954,14 +3503,19 @@
     <div class="cover-bg"></div>
     <div class="cover-overlay"></div>
     <div class="cover-pattern"></div>
-    <button class="cover-session-btn" onclick="openSessionModal()">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <circle cx="6" cy="4" r="2.2" stroke="currentColor" stroke-width="1.2" />
-        <path d="M1.5 11c0-2.485 2.015-4 4.5-4s4.5 1.515 4.5 4" stroke="currentColor" stroke-width="1.2"
-          stroke-linecap="round" />
-      </svg>
-      <span id="cover-session-label">Current Session</span>
-    </button>
+    <div class="cover-utility-row">
+      <button class="cover-appearance-toggle" id="cover-appearance-toggle" onclick="toggleAppearanceMode()"
+        title="Switch to night mode" aria-label="Switch to night mode">
+      </button>
+      <button class="cover-session-btn" onclick="openSessionModal()">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="4" r="2.2" stroke="currentColor" stroke-width="1.2" />
+          <path d="M1.5 11c0-2.485 2.015-4 4.5-4s4.5 1.515 4.5 4" stroke="currentColor" stroke-width="1.2"
+            stroke-linecap="round" />
+        </svg>
+        <span id="cover-session-label">Current Session</span>
+      </button>
+    </div>
     <div class="cover-card">
       <div class="cover-eyebrow">
         <span class="cover-eyebrow-line"></span>
@@ -3245,14 +3799,19 @@
       <!-- Injected by renderMobileDrawerNav() -->
     </div>
     <div class="mobile-drawer-footer">
-      <button class="mobile-session-btn" onclick="openSessionModalFromDrawer()">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3" />
-          <path d="M2 12c0-2.485 2.239-4.5 5-4.5s5 2.015 5 4.5" stroke="currentColor" stroke-width="1.3"
-            stroke-linecap="round" />
-        </svg>
-        <span id="mobile-session-label">Current Session</span>
-      </button>
+      <div class="mobile-footer-actions">
+        <button class="mobile-session-btn" onclick="openSessionModalFromDrawer()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="7" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3" />
+            <path d="M2 12c0-2.485 2.239-4.5 5-4.5s5 2.015 5 4.5" stroke="currentColor" stroke-width="1.3"
+              stroke-linecap="round" />
+          </svg>
+          <span id="mobile-session-label">Current Session</span>
+        </button>
+        <button class="mobile-appearance-toggle" id="mobile-appearance-toggle" onclick="toggleAppearanceMode()"
+          title="Switch to night mode" aria-label="Switch to night mode">
+        </button>
+      </div>
     </div>
   </div>
 
@@ -3408,21 +3967,18 @@
         vocabIntro: 'Higher-level expressions from this subject — with definitions and natural in-action examples.'
       },
       iconSvg: `<svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 58C31 42 41 42 50 54C59 66 69 66 78 50"
-        stroke="#2D8F87"
-        stroke-width="7"
-        stroke-linecap="round"/>
-  <path d="M28 38C36 29 45 27 54 32"
-        stroke="#1C2B4A"
-        stroke-width="6"
+  <text x="50" y="61"
+        text-anchor="middle"
+        font-family="Playfair Display, Georgia, serif"
+        font-size="42"
+        font-weight="600"
+        letter-spacing="-3"
+        fill="currentColor">HC</text>
+  <path d="M32 70H68"
+        stroke="currentColor"
+        stroke-width="4"
         stroke-linecap="round"
-        opacity="0.82"/>
-  <path d="M47 76C56 80 66 78 74 70"
-        stroke="#5EC8F2"
-        stroke-width="6"
-        stroke-linecap="round"
-        opacity="0.9"/>
-  <circle cx="50" cy="54" r="5.5" fill="#1C2B4A"/>
+        opacity="0.38"/>
 </svg>`,
     };
 
@@ -4162,6 +4718,9 @@
           <button class="nav-keylang-btn" onclick="openVocabBank()" title="Key Language">
             ${NAV_SVG.keylang}
           </button>
+          <button class="appearance-toggle nav-appearance-toggle" onclick="toggleAppearanceMode()"
+            title="Switch to night mode" aria-label="Switch to night mode">
+          </button>
         </div>
       </nav>`;
     }
@@ -4299,6 +4858,9 @@
           ${name !== currentSession ? `<button class="session-item-btn" title="Switch" onclick="switchSession('${escAttr(name)}')">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>` : ''}
+          ${name !== 'Default' ? `<button class="session-item-btn" title="Rename session" onclick="renameSession('${escAttr(name)}')">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.2 2.2l1.6 1.6M2.5 9.5l.5-2.2 5.2-5.2a1.1 1.1 0 011.6 0l.1.1a1.1 1.1 0 010 1.6L4.7 9l-2.2.5Z" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>` : ''}
           <button class="session-item-btn danger" title="Reset progress" onclick="resetSession('${escAttr(name)}')">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6a4 4 0 118 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M10 2v4H6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
@@ -4343,6 +4905,43 @@
       localStorage.removeItem(`${MODULE.id}::${name}`);
       if (currentSession === name) { currentSession = 'Default'; loadProgress(); }
       saveSessions();
+      updateSessionUI();
+      renderSessionList();
+      refreshProgressUI();
+    }
+
+    function renameSession(oldName) {
+      if (oldName === 'Default') return;
+      if (!sessions.includes(oldName)) return;
+
+      const nextNameRaw = prompt(`Rename session "${oldName}"`, oldName);
+      if (nextNameRaw === null) return;
+
+      const nextName = nextNameRaw.trim();
+      if (!nextName || nextName === oldName) return;
+
+      if (sessions.includes(nextName)) {
+        alert('A session with that name already exists.');
+        return;
+      }
+
+      const oldKey = `${MODULE.id}::${oldName}`;
+      const newKey = `${MODULE.id}::${nextName}`;
+      const savedProgress = localStorage.getItem(oldKey);
+
+      if (savedProgress !== null) {
+        localStorage.setItem(newKey, savedProgress);
+        localStorage.removeItem(oldKey);
+      }
+
+      sessions = sessions.map(name => name === oldName ? nextName : name);
+
+      if (currentSession === oldName) {
+        currentSession = nextName;
+      }
+
+      saveSessions();
+      loadProgress();
       updateSessionUI();
       renderSessionList();
       refreshProgressUI();
@@ -5049,12 +5648,107 @@
       }
     });
 
-// Close upgrade panels on outside click
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.upgrade-chip') && !e.target.closest('.upgrade-panel')) {
-    closeAllUpgradePanels();
-  }
-});
+    // Close upgrade panels on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.upgrade-chip') && !e.target.closest('.upgrade-panel')) {
+        closeAllUpgradePanels();
+      }
+    });
+
+    // ---- APPEARANCE MODE ----
+
+    const APPEARANCE_MODE_KEY = 'human-compass::appearanceMode';
+
+    // SVG icons for the appearance toggle buttons
+    const APPEARANCE_SVG = {
+      moon: `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+        <path d="M14.5 10.2A7 7 0 0 1 6.8 2.5a7 7 0 1 0 7.7 7.7Z" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>`,
+      sun: `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+        <circle cx="8.5" cy="8.5" r="3" stroke="currentColor" stroke-width="1.35"/>
+        <path d="M8.5 1.5v2M8.5 13.5v2M1.5 8.5h2M13.5 8.5h2M3.7 3.7l1.4 1.4M11.9 11.9l1.4 1.4M11.9 5.1l1.4-1.4M3.7 13.3l1.4-1.4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
+      </svg>`,
+      // Smaller variants for the cover pill and mobile footer
+      moonSm: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M12 8.5A5.5 5.5 0 0 1 5.5 2a5.5 5.5 0 1 0 6.5 6.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>`,
+      sunSm: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.3"/>
+        <path d="M7 1.5v1.5M7 11v1.5M1.5 7H3M11 7h1.5M3.2 3.2l1 1M9.8 9.8l1 1M9.8 4.2l1-1M3.2 10.8l1-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>`,
+    };
+
+    function getAppearanceMode() {
+      const saved = localStorage.getItem(APPEARANCE_MODE_KEY);
+      return (saved === 'night') ? 'night' : 'light';
+    }
+
+    function applyAppearanceMode(mode) {
+      document.documentElement.dataset.theme = mode;
+    }
+
+    function setAppearanceMode(mode) {
+      document.documentElement.classList.add('theme-changing');
+
+      localStorage.setItem(APPEARANCE_MODE_KEY, mode);
+      applyAppearanceMode(mode);
+      updateAppearanceToggleUI();
+      window.dispatchEvent(new CustomEvent('human-compass:appearance-change', { detail: { mode } }));
+
+      window.clearTimeout(window.__humanCompassThemeTimer);
+      window.__humanCompassThemeTimer = window.setTimeout(() => {
+        document.documentElement.classList.remove('theme-changing');
+      }, 2000);
+    }
+
+    function toggleAppearanceMode() {
+      const current = getAppearanceMode();
+      setAppearanceMode(current === 'night' ? 'light' : 'night');
+    }
+
+    function updateAppearanceToggleUI() {
+      const mode = getAppearanceMode();
+      const isNight = mode === 'night';
+      const label = isNight ? 'Switch to light mode' : 'Switch to night mode';
+
+      // Icons: cover pill and mobile use smaller SVGs; desktop nav uses standard
+      const iconStd = isNight ? APPEARANCE_SVG.sun : APPEARANCE_SVG.moon;
+      const iconSm = isNight ? APPEARANCE_SVG.sunSm : APPEARANCE_SVG.moonSm;
+      const iconMob = isNight ? APPEARANCE_SVG.sun : APPEARANCE_SVG.moon;
+
+      // Cover toggle
+      const coverBtn = document.getElementById('cover-appearance-toggle');
+      if (coverBtn) {
+        coverBtn.innerHTML = iconSm;
+        coverBtn.title = label;
+        coverBtn.setAttribute('aria-label', label);
+      }
+
+      // Desktop nav toggles (one per rendered nav, class selector)
+      document.querySelectorAll('.nav-appearance-toggle').forEach(btn => {
+        btn.innerHTML = iconStd;
+        btn.title = label;
+        btn.setAttribute('aria-label', label);
+      });
+
+      // Mobile drawer toggle
+      const mobBtn = document.getElementById('mobile-appearance-toggle');
+      if (mobBtn) {
+        mobBtn.innerHTML = iconMob;
+        mobBtn.title = label;
+        mobBtn.setAttribute('aria-label', label);
+      }
+    }
+
+    function initAppearanceMode() {
+      // The early head script already called applyAppearanceMode via dataset.theme,
+      // so we only need to sync the saved value and update UI icons.
+      const saved = localStorage.getItem(APPEARANCE_MODE_KEY);
+      if (saved !== 'night' && saved !== 'light') {
+        localStorage.setItem(APPEARANCE_MODE_KEY, 'light');
+      }
+      updateAppearanceToggleUI();
+    }
 
     // ---- INIT ----
 
@@ -5086,6 +5780,8 @@ document.addEventListener('click', (e) => {
       // Render content grids
       renderCLGrid();
       renderDiscussionSets();
+      // Initialise appearance mode (reads saved value, stamps icons into injected navs)
+      initAppearanceMode();
     }
 
     document.addEventListener('DOMContentLoaded', init);
