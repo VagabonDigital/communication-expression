@@ -410,10 +410,10 @@
 
     .nav-brand-system {
       font-family: var(--font-body);
-      font-size: 0.84rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 500;
       color: var(--ink);
-      letter-spacing: -0.01em;
+      letter-spacing: -0.005em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -423,7 +423,7 @@
       margin-top: 0.08rem;
       font-family: var(--font-body);
       font-size: 0.68rem;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--stone-dark);
       letter-spacing: 0.01em;
       white-space: nowrap;
@@ -1211,7 +1211,7 @@
     }
 
     /* ============================================================
-   SCENARIO ACTION ROW (chip + mark covered on same line)
+   SCENARIO ACTION AREA
    ============================================================ */
 
     /* Wraps the action row + the panel that drops beneath it */
@@ -1236,11 +1236,11 @@
       max-width: 100%;
     }
 
-    .scenario-upgrade-wrap:has(.upgrade-panel.open) .scenario-action-row {
+    .scenario-upgrade-wrap.upgrade-open .scenario-action-row {
       grid-template-columns: minmax(0, 1fr);
     }
 
-    .scenario-upgrade-wrap:has(.upgrade-panel.open) .btn-mark-covered {
+    .scenario-upgrade-wrap.upgrade-open .btn-mark-covered {
       justify-self: end;
       margin-top: 0.15rem;
     }
@@ -2526,10 +2526,10 @@
 
     .mobile-header-system {
       font-family: var(--font-body);
-      font-size: 0.84rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 500;
       color: var(--ink);
-      letter-spacing: -0.01em;
+      letter-spacing: -0.005em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -2539,7 +2539,7 @@
       margin-top: 0.1rem;
       font-family: var(--font-body);
       font-size: 0.68rem;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--stone-dark);
       letter-spacing: 0.01em;
       white-space: nowrap;
@@ -2555,7 +2555,7 @@
     }
 
     .mobile-menu-btn {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       width: 36px;
@@ -2884,7 +2884,7 @@
         margin-left: 0;
       }
 
-      .scenario-upgrade-wrap:has(.upgrade-panel.open) .btn-mark-covered {
+      .scenario-upgrade-wrap.upgrade-open .btn-mark-covered {
         width: 100%;
         justify-self: stretch;
         margin-top: 0;
@@ -4168,7 +4168,7 @@
 
     // Render a sticky mobile header for inner views (cultural-lens / discussion / reflection).
     // viewKey matches the key used in openMobileDrawer() — e.g. 'cultural-lens'.
-    function renderMobileHeader(containerId, viewKey, label) {
+    function renderMobileHeader(containerId, viewKey) {
       const container = document.getElementById(containerId);
       if (!container) return;
       container.innerHTML = `<header class="mobile-header">
@@ -4461,20 +4461,35 @@
       });
     }
 
+    function closeAllUpgradePanels() {
+      document.querySelectorAll('.upgrade-panel.open').forEach(panel => {
+        panel.classList.remove('open');
+
+        const contextId = panel.id.replace('up-', '');
+        const chip = document.getElementById(`uc-${contextId}`);
+        if (chip) {
+          chip.classList.remove('open');
+          chip.setAttribute('aria-expanded', 'false');
+        }
+
+        const wrap = panel.closest('.scenario-upgrade-wrap');
+        if (wrap) wrap.classList.remove('upgrade-open');
+      });
+    }
+
     function toggleUpgrade(contextId, event) {
       event.stopPropagation();
       const chip = document.getElementById(`uc-${contextId}`);
       const panel = document.getElementById(`up-${contextId}`);
       if (!chip || !panel) return;
       const isOpen = panel.classList.contains('open');
-      document.querySelectorAll('.upgrade-panel.open').forEach(p => {
-        p.classList.remove('open');
-        const cid = p.id.replace('up-', '');
-        const c = document.getElementById(`uc-${cid}`);
-        if (c) { c.classList.remove('open'); c.setAttribute('aria-expanded', 'false'); }
-      });
+      closeAllUpgradePanels();
       if (!isOpen) {
         panel.classList.add('open');
+
+        const wrap = panel.closest('.scenario-upgrade-wrap');
+        if (wrap) wrap.classList.add('upgrade-open');
+
         chip.classList.add('open');
         chip.setAttribute('aria-expanded', 'true');
         gentlyRevealUpgradePanel(panel);
@@ -4751,7 +4766,7 @@
 
         const coveredBtnHtml = `<button class="btn-mark-covered ${state === 'covered' ? 'is-covered' : ''}"
             id="sc-btn-${sc.id}"
-            onclick="markScenarioCovered('${sc.id}', '${set.id}')">
+            onclick="markScenarioCovered('${sc.id}')">
             ${state === 'covered'
             ? `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Covered`
             : `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Mark covered`
@@ -4759,7 +4774,7 @@
           </button>`;
 
         card.innerHTML = `
-        <div class="scenario-card-header" onclick="toggleScenario('${sc.id}', '${set.id}')">
+        <div class="scenario-card-header" onclick="toggleScenario('${sc.id}')">
           <div class="scenario-state-dot"></div>
           <span class="scenario-num">${String(idx + 1).padStart(2, '0')}</span>
           <span class="scenario-preview">${escHtml(sc.preview)}</span>
@@ -4824,7 +4839,8 @@
       `;
       list.appendChild(closeSetBottom);
     }
-    function toggleScenario(scId, setId) {
+
+    function toggleScenario(scId) {
       const card = document.getElementById(`sc-card-${scId}`);
       if (!card) return;
       const wasExpanded = card.classList.contains('expanded');
@@ -4844,7 +4860,7 @@
       card.className = `scenario-card state-${state}${card.classList.contains('expanded') ? ' expanded' : ''}`;
     }
 
-    function markScenarioCovered(scId, setId) {
+    function markScenarioCovered(scId) {
       markCovered(scId);
       const btn = document.getElementById(`sc-btn-${scId}`);
       if (btn) {
@@ -5013,12 +5029,7 @@
         if (document.getElementById('session-modal-overlay').classList.contains('open')) closeSessionModal();
         if (document.getElementById('mobile-drawer').classList.contains('open')) closeMobileDrawer();
 
-        document.querySelectorAll('.upgrade-panel.open').forEach(p => {
-          p.classList.remove('open');
-          const cid = p.id.replace('up-', '');
-          const c = document.getElementById(`uc-${cid}`);
-          if (c) { c.classList.remove('open'); c.setAttribute('aria-expanded', 'false'); }
-        });
+        closeAllUpgradePanels();
       }
 
       if (clModalOpen && e.key === 'ArrowRight') {
@@ -5038,17 +5049,12 @@
       }
     });
 
-    // Close upgrade panels on outside click
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.upgrade-chip') && !e.target.closest('.upgrade-panel')) {
-        document.querySelectorAll('.upgrade-panel.open').forEach(p => {
-          p.classList.remove('open');
-          const cid = p.id.replace('up-', '');
-          const c = document.getElementById(`uc-${cid}`);
-          if (c) { c.classList.remove('open'); c.setAttribute('aria-expanded', 'false'); }
-        });
-      }
-    });
+// Close upgrade panels on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.upgrade-chip') && !e.target.closest('.upgrade-panel')) {
+    closeAllUpgradePanels();
+  }
+});
 
     // ---- INIT ----
 
@@ -5063,11 +5069,10 @@
       renderNav('nav-discussion', 'view-discussion');
       renderNav('nav-reflection', 'view-reflection');
       // Render mobile headers for inner views
-      const getNavLabel = (id) => NAV_ITEMS.find(item => item.id === id)?.label || '';
-      renderMobileHeader('mob-header-orientation', 'overview', getNavLabel('overview'));
-      renderMobileHeader('mob-header-cultural-lens', 'cultural-lens', getNavLabel('cultural-lens'));
-      renderMobileHeader('mob-header-discussion', 'discussion', getNavLabel('discussion'));
-      renderMobileHeader('mob-header-reflection', 'reflection', getNavLabel('reflection'));
+      renderMobileHeader('mob-header-orientation', 'overview');
+      renderMobileHeader('mob-header-cultural-lens', 'cultural-lens');
+      renderMobileHeader('mob-header-discussion', 'discussion');
+      renderMobileHeader('mob-header-reflection', 'reflection');
       // Render shared mobile drawer nav
       renderMobileDrawerNav();
       // Stamp subject icon into all brand slots (runs after nav HTML is injected)
