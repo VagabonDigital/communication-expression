@@ -3255,12 +3255,32 @@
       backdrop-filter: blur(10px);
     }
 
+    /* Night mode: refined hover treatments */
     html[data-theme="night"] .main-path-card:hover,
     html[data-theme="night"] .reflection-path-card:hover,
     html[data-theme="night"] .set-card:hover,
     html[data-theme="night"] .cl-card:hover {
       background: rgba(98, 85, 71, 0.78) !important;
       border-color: rgba(131, 185, 179, 0.48) !important;
+    }
+
+    html[data-theme="night"] .main-path-card::before {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(159, 206, 201, 0.10), transparent 44%),
+        linear-gradient(135deg,
+          rgba(159, 206, 201, 0.06) 0%,
+          rgba(228, 199, 131, 0.025) 52%,
+          transparent 78%);
+    }
+
+    html[data-theme="night"] .main-path-card:hover::before {
+      opacity: 0.34;
+    }
+
+    html[data-theme="night"] .main-path-card:hover {
+      box-shadow:
+        0 16px 42px rgba(0, 0, 0, 0.18),
+        0 0 0 1px rgba(159, 206, 201, 0.08) inset;
     }
 
     html[data-theme="night"] .set-card.active-set {
@@ -4160,7 +4180,7 @@
   <div class="mobile-drawer" id="mobile-drawer">
     <div class="mobile-drawer-header">
       <span class="mobile-drawer-title" id="mobile-drawer-subject-title"></span>
-      <button class="mobile-drawer-close" onclick="closeMobileDrawer()">
+      <button class="mobile-drawer-close" onclick="closeMobileDrawer()" aria-label="Close menu">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
         </svg>
@@ -5213,6 +5233,16 @@
         // Atlas Hub data is optional. The module should still work if storage is blocked.
       }
     }
+
+    /* ============================================================
+       LOCKED TEMPLATE SYSTEM: DOM INJECTION & RENDERING
+       Maps module data, content arrays, and shared navigation into
+       the static HTML shell.
+       ============================================================ */
+
+    // ---- COVER ----
+
+    // The cover view uses .view.active like all other views.
 
     // ---- COVER ----
 
@@ -6605,7 +6635,7 @@
       renderMobileDrawerNav();
       // Stamp subject icon into all brand slots (runs after nav HTML is injected)
       renderSubjectIcons();
-      // Register lightweight module data for the future Atlas Hub
+      // Register lightweight module data for Atlas Hub
       registerAtlasModuleManifest();
       // Load sessions and progress from localStorage
       loadSessions();
