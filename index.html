@@ -398,13 +398,23 @@
     }
 
     /* ============================================================
+   STICKY NAV SHELLS
+   Keeps injected desktop and mobile headers visible while scrolling.
+   ============================================================ */
+
+    .nav-shell,
+    .mobile-header-shell {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* ============================================================
    GLOBAL NAV BAR
    ============================================================ */
 
     .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: relative;
       background: rgba(247, 244, 239, 0.95);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--stone-light);
@@ -2770,9 +2780,7 @@
 
     .mobile-header {
       display: none;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: relative;
       background: rgba(247, 244, 239, 0.96);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(200, 191, 176, 0.5);
@@ -3917,7 +3925,7 @@
     <!-- Mobile header injected by renderMobileHeader('overview') -->
     <div id="mob-header-orientation"></div>
     <!-- Desktop nav injected by renderNav('view-orientation') -->
-    <div id="nav-orientation"></div>
+    <div id="nav-orientation" class="nav-shell"></div>
 
     <div class="orientation-wrap">
       <div class="section-stage">
@@ -4006,7 +4014,7 @@
     <!-- Mobile header injected by renderMobileHeader('cultural-lens') -->
     <div id="mob-header-cultural-lens"></div>
     <!-- Desktop nav injected by renderNav('view-cultural-lens') -->
-    <div id="nav-cultural-lens"></div>
+    <div id="nav-cultural-lens" class="nav-shell"></div>
 
     <div class="section-wrap">
       <div class="section-stage">
@@ -4048,7 +4056,7 @@
     <!-- Mobile header injected by renderMobileHeader('discussion') -->
     <div id="mob-header-discussion"></div>
     <!-- Desktop nav injected by renderNav('view-discussion') -->
-    <div id="nav-discussion"></div>
+    <div id="nav-discussion" class="nav-shell"></div>
 
     <div class="section-wrap">
       <div class="section-stage">
@@ -4103,7 +4111,7 @@
     <!-- Mobile header injected by renderMobileHeader('reflection') -->
     <div id="mob-header-reflection"></div>
     <!-- Desktop nav injected by renderNav('view-reflection') -->
-    <div id="nav-reflection"></div>
+    <div id="nav-reflection" class="nav-shell"></div>
 
     <div class="reflection-wrap">
       <div class="section-stage">
