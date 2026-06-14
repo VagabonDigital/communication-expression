@@ -22,10 +22,17 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
     rel="stylesheet">
-  <!-- Appearance mode: apply saved theme before first paint to preventF light-mode flash -->
+  <!-- Appearance mode: apply saved theme before first paint to prevent light-mode flash -->
   <script>
     (function () {
-      var saved = localStorage.getItem('human-compass::appearanceMode');
+      var saved = null;
+
+      try {
+        saved = localStorage.getItem('human-compass::appearanceMode');
+      } catch (e) {
+        saved = null;
+      }
+
       document.documentElement.dataset.theme = (saved === 'night') ? 'night' : 'light';
     })();
   </script>
@@ -1436,21 +1443,24 @@
     .btn-covered {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.35rem;
       padding: 0.5rem 1.1rem;
       border-radius: var(--radius-sm);
-      border: none;
-      background: var(--accent);
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
+      background: rgba(var(--accent-rgb), 0.92);
       color: #fff;
       font-family: var(--font-body);
       font-size: 0.82rem;
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.12);
     }
 
     .btn-covered:hover {
-      background: var(--accent-soft);
+      background: rgba(var(--accent-rgb), 0.98);
+      border-color: rgba(var(--accent-rgb), 0.34);
     }
 
     /* ============================================================
@@ -2108,21 +2118,48 @@
     .btn-primary {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.4rem;
       padding: 0.75rem 1.8rem;
       border-radius: var(--radius-sm);
-      border: none;
-      background: var(--accent);
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
+      background: rgba(var(--accent-rgb), 0.92);
       color: #fff;
       font-family: var(--font-body);
       font-size: 0.88rem;
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
+      box-shadow: 0 5px 16px rgba(var(--accent-rgb), 0.13);
     }
 
     .btn-primary:hover {
-      background: var(--accent-soft);
+      background: rgba(var(--accent-rgb), 0.98);
+      border-color: rgba(var(--accent-rgb), 0.34);
+    }
+
+    .btn-primary.btn-complete-done {
+      background: rgba(var(--accent-pale-rgb), 0.72);
+      border-color: rgba(var(--accent-rgb), 0.28);
+      color: var(--accent);
+      box-shadow: none;
+    }
+
+    .btn-primary.btn-complete-done:hover {
+      background: rgba(var(--accent-pale-rgb), 0.92);
+      border-color: rgba(var(--accent-rgb), 0.36);
+      color: var(--accent);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.76;
+      cursor: default;
+    }
+
+    .btn-primary:disabled:hover {
+      background: rgba(var(--accent-pale-rgb), 0.72);
+      border-color: rgba(var(--accent-rgb), 0.28);
+      color: var(--accent);
     }
 
     /* ============================================================
@@ -3114,6 +3151,10 @@
       border-color: rgba(255, 255, 255, 0.13);
     }
 
+    html[data-theme="night"] .upgrade-panel-in-action {
+      border-left-color: rgba(159, 206, 201, 0.40);
+    }
+
     html[data-theme="night"] .session-item {
       background: rgba(70, 61, 51, 0.74);
       border-color: rgba(255, 255, 255, 0.13);
@@ -3189,6 +3230,28 @@
       color: #2f2923;
     }
 
+    html[data-theme="night"] .btn-primary.btn-complete-done {
+      background: rgba(61, 98, 94, 0.46);
+      border-color: rgba(131, 185, 179, 0.34);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .btn-primary.btn-complete-done:hover {
+      background: rgba(61, 98, 94, 0.62);
+      border-color: rgba(159, 206, 201, 0.48);
+      color: var(--accent-soft);
+    }
+
+    html[data-theme="night"] .btn-primary:disabled {
+      opacity: 0.72;
+    }
+
+    html[data-theme="night"] .btn-primary:disabled:hover {
+      background: rgba(61, 98, 94, 0.46);
+      border-color: rgba(131, 185, 179, 0.34);
+      color: var(--accent-soft);
+    }
+
     html[data-theme="night"] .btn-mark-covered {
       background: rgba(61, 98, 94, 0.46);
       border-color: rgba(131, 185, 179, 0.34);
@@ -3239,22 +3302,22 @@
     }
 
     /* ============================================================
-   APPEARANCE MODE — SMOOTH THEME TRANSITION
+   APPEARANCE MODE — FAST THEME TRANSITION
    ============================================================ */
 
     html.theme-changing *,
     html.theme-changing *::before,
     html.theme-changing *::after {
       transition:
-        background-color 1.8s ease,
-        background 1.8s ease,
-        color 1.8s ease,
-        border-color 1.8s ease,
-        box-shadow 1.8s ease,
-        opacity 1.8s ease,
-        filter 1.8s ease,
-        backdrop-filter 1.8s ease,
-        -webkit-backdrop-filter 1.8s ease !important;
+        background-color 0.55s ease,
+        background 0.55s ease,
+        color 0.55s ease,
+        border-color 0.55s ease,
+        box-shadow 0.55s ease,
+        opacity 0.55s ease,
+        filter 0.55s ease,
+        backdrop-filter 0.55s ease,
+        -webkit-backdrop-filter 0.55s ease !important;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -3375,6 +3438,18 @@
       .reflection-q-text {
         font-size: 0.92rem;
         line-height: 1.6;
+      }
+
+      .reflection-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .reflection-actions .btn-primary,
+      .reflection-actions .btn-ghost {
+        width: 100%;
+        min-height: 3rem;
+        justify-content: center;
       }
 
       .scenario-card-header {
@@ -3767,6 +3842,14 @@
           </div>
         </div>
         <div class="reflection-actions">
+          <button class="btn-primary" id="complete-lesson-btn" onclick="completeLesson()">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8.2l3.1 3.1L13 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            Mark lesson complete
+          </button>
+
           <button class="btn-primary" onclick="openVocabBank()">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
               <path
@@ -3840,7 +3923,8 @@
             <!-- Injected by JS -->
           </div>
         </div>
-        <button class="explore-deeper-toggle" id="explore-toggle" onclick="toggleExploreDeeper()">
+        <button class="explore-deeper-toggle" id="explore-toggle" onclick="toggleExploreDeeper()" aria-expanded="false"
+          aria-controls="explore-deeper-content">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M8 2.4L13 5.2L8 8L3 5.2L8 2.4Z" stroke="currentColor" stroke-width="1.25"
               stroke-linejoin="round" />
@@ -4477,9 +4561,35 @@
 
     const GLOBAL_ACTIVE_SESSION_KEY = 'human-compass::activeSession';
 
+    function storageGet(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    }
+
+    function storageSet(key, value) {
+      try {
+        localStorage.setItem(key, value);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function storageRemove(key) {
+      try {
+        localStorage.removeItem(key);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
     function getGlobalActiveSession() {
       try {
-        const raw = localStorage.getItem(GLOBAL_ACTIVE_SESSION_KEY);
+        const raw = storageGet(GLOBAL_ACTIVE_SESSION_KEY);
         if (!raw) return null;
 
         const parsed = JSON.parse(raw);
@@ -4494,28 +4604,53 @@
     }
 
     function loadProgress() {
-      const raw = localStorage.getItem(getSessionKey());
+      const raw = storageGet(getSessionKey());
       if (raw) {
         try {
           const p = JSON.parse(raw);
-          progress = { viewed: new Set(p.viewed || []), covered: new Set(p.covered || []) };
+          const snapshot =
+            p.completionSnapshot &&
+              Array.isArray(p.completionSnapshot.viewed) &&
+              Array.isArray(p.completionSnapshot.covered)
+              ? {
+                viewed: p.completionSnapshot.viewed,
+                covered: p.completionSnapshot.covered
+              }
+              : null;
+
+          progress = {
+            viewed: new Set(p.viewed || []),
+            covered: new Set(p.covered || []),
+            completionSnapshot: snapshot
+          };
         } catch {
-          progress = { viewed: new Set(), covered: new Set() };
+          progress = { viewed: new Set(), covered: new Set(), completionSnapshot: null };
         }
       } else {
-        progress = { viewed: new Set(), covered: new Set() };
+        progress = { viewed: new Set(), covered: new Set(), completionSnapshot: null };
       }
     }
 
     function saveProgress() {
-      localStorage.setItem(getSessionKey(), JSON.stringify({
+      const snapshot =
+        progress.completionSnapshot &&
+          Array.isArray(progress.completionSnapshot.viewed) &&
+          Array.isArray(progress.completionSnapshot.covered)
+          ? {
+            viewed: [...progress.completionSnapshot.viewed],
+            covered: [...progress.completionSnapshot.covered]
+          }
+          : null;
+
+      storageSet(getSessionKey(), JSON.stringify({
         viewed: [...progress.viewed],
-        covered: [...progress.covered]
+        covered: [...progress.covered],
+        completionSnapshot: snapshot
       }));
     }
 
     function loadSessions() {
-      const raw = localStorage.getItem(`${MODULE.id}::sessions`);
+      const raw = storageGet(`${MODULE.id}::sessions`);
       if (raw) {
         try { sessions = JSON.parse(raw); } catch { sessions = ['Default']; }
       }
@@ -4528,16 +4663,16 @@
         return;
       }
 
-      const rawCurrent = localStorage.getItem(`${MODULE.id}::currentSession`);
+      const rawCurrent = storageGet(`${MODULE.id}::currentSession`);
       if (rawCurrent && sessions.includes(rawCurrent)) {
         currentSession = rawCurrent;
       }
     }
 
     function saveSessions() {
-      localStorage.setItem(`${MODULE.id}::sessions`, JSON.stringify(sessions));
-      localStorage.setItem(`${MODULE.id}::currentSession`, currentSession);
-      localStorage.setItem(GLOBAL_ACTIVE_SESSION_KEY, JSON.stringify({ name: currentSession }));
+      storageSet(`${MODULE.id}::sessions`, JSON.stringify(sessions));
+      storageSet(`${MODULE.id}::currentSession`, currentSession);
+      storageSet(GLOBAL_ACTIVE_SESSION_KEY, JSON.stringify({ name: currentSession }));
     }
 
     function markViewed(id) {
@@ -4548,12 +4683,103 @@
       progress.covered.add(id);
       progress.viewed.add(id);
       saveProgress();
+      updateLessonCompleteButton();
     }
 
     function getItemState(id) {
       if (progress.covered.has(id)) return 'covered';
       if (progress.viewed.has(id)) return 'viewed';
       return 'default';
+    }
+
+    const LESSON_COMPLETE_ICON = `<svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+  <path d="M3 8.2l3.1 3.1L13 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" />
+</svg>`;
+
+    const LESSON_UNDO_ICON = `<svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+  <path d="M5.2 5.4H3.2V3.4" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"
+    stroke-linejoin="round" />
+  <path d="M3.4 5.2A5.2 5.2 0 111.9 8.8" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" />
+</svg>`;
+
+    function getLessonItemIds() {
+      return [
+        ...clCards.map(card => card.id),
+        ...discussionSets.flatMap(set => set.scenarios.map(sc => sc.id))
+      ];
+    }
+
+    function isLessonComplete() {
+      const allIds = getLessonItemIds();
+      return allIds.length > 0 && allIds.every(id => progress.covered.has(id));
+    }
+
+    function completeLesson() {
+      const allIds = getLessonItemIds();
+      if (!allIds.length) return;
+
+      const complete = isLessonComplete();
+      const hasSnapshot =
+        progress.completionSnapshot &&
+        Array.isArray(progress.completionSnapshot.viewed) &&
+        Array.isArray(progress.completionSnapshot.covered);
+
+      if (complete) {
+        if (!hasSnapshot) return;
+
+        progress.viewed = new Set(progress.completionSnapshot.viewed || []);
+        progress.covered = new Set(progress.completionSnapshot.covered || []);
+        progress.completionSnapshot = null;
+
+        saveProgress();
+        refreshProgressUI();
+        updateLessonCompleteButton();
+        return;
+      }
+
+      progress.completionSnapshot = {
+        viewed: [...progress.viewed],
+        covered: [...progress.covered]
+      };
+
+      allIds.forEach(id => {
+        progress.viewed.add(id);
+        progress.covered.add(id);
+      });
+
+      saveProgress();
+      refreshProgressUI();
+      updateLessonCompleteButton();
+    }
+
+    function updateLessonCompleteButton() {
+      const btn = document.getElementById('complete-lesson-btn');
+      if (!btn) return;
+
+      const complete = isLessonComplete();
+      const hasSnapshot =
+        progress.completionSnapshot &&
+        Array.isArray(progress.completionSnapshot.viewed) &&
+        Array.isArray(progress.completionSnapshot.covered);
+
+      btn.disabled = complete && !hasSnapshot;
+      btn.className = `btn-primary${complete ? ' btn-complete-done' : ''}`;
+
+      if (!complete) {
+        btn.innerHTML = `${LESSON_COMPLETE_ICON} Mark lesson complete`;
+        btn.title = 'Mark every card and scenario as covered for this session';
+        return;
+      }
+
+      if (hasSnapshot) {
+        btn.innerHTML = `${LESSON_UNDO_ICON} Undo lesson complete`;
+        btn.title = 'Restore progress to the state before lesson completion';
+        return;
+      }
+
+      btn.innerHTML = `${LESSON_COMPLETE_ICON} Lesson completed`;
+      btn.title = 'All cards and scenarios are covered for this session';
     }
 
     function registerAtlasModuleManifest() {
@@ -4592,9 +4818,9 @@
           items: [...culturalLensItems, ...scenarioItems]
         };
 
-        localStorage.setItem(`human-compass::moduleManifest::${MODULE.id}`, JSON.stringify(manifest));
+        storageSet(`human-compass::moduleManifest::${MODULE.id}`, JSON.stringify(manifest));
 
-        const rawIndex = localStorage.getItem('human-compass::moduleIndex');
+        const rawIndex = storageGet('human-compass::moduleIndex');
         const index = rawIndex ? JSON.parse(rawIndex) : [];
         const nextIndex = index.filter(item => item.id !== MODULE.id);
 
@@ -4606,7 +4832,7 @@
           totalScenarios: manifest.totalScenarios
         });
 
-        localStorage.setItem('human-compass::moduleIndex', JSON.stringify(nextIndex));
+        storageSet('human-compass::moduleIndex', JSON.stringify(nextIndex));
       } catch {
         // Atlas Hub data is optional. The module should still work if storage is blocked.
       }
@@ -4831,10 +5057,12 @@
     function openSessionModal() {
       renderSessionList();
       document.getElementById('session-modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
 
     function closeSessionModal() {
       document.getElementById('session-modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
     }
 
     function handleSessionOverlayClick(e) {
@@ -4880,6 +5108,8 @@
         const set = discussionSets.find(s => s.id === activeSetId);
         if (set) renderScenarios(set);
       }
+
+      updateLessonCompleteButton();
     }
 
     function switchSession(name) {
@@ -4893,7 +5123,7 @@
 
     function resetSession(name) {
       if (!confirm(`Reset all progress for session "${name}"?`)) return;
-      localStorage.removeItem(`${MODULE.id}::${name}`);
+      storageRemove(`${MODULE.id}::${name}`);
       if (name === currentSession) loadProgress();
       renderSessionList();
       refreshProgressUI();
@@ -4902,7 +5132,7 @@
     function deleteSession(name) {
       if (!confirm(`Delete session "${name}"? This will also remove its saved progress.`)) return;
       sessions = sessions.filter(s => s !== name);
-      localStorage.removeItem(`${MODULE.id}::${name}`);
+      storageRemove(`${MODULE.id}::${name}`);
       if (currentSession === name) { currentSession = 'Default'; loadProgress(); }
       saveSessions();
       updateSessionUI();
@@ -4927,11 +5157,11 @@
 
       const oldKey = `${MODULE.id}::${oldName}`;
       const newKey = `${MODULE.id}::${nextName}`;
-      const savedProgress = localStorage.getItem(oldKey);
+      const savedProgress = storageGet(oldKey);
 
       if (savedProgress !== null) {
-        localStorage.setItem(newKey, savedProgress);
-        localStorage.removeItem(oldKey);
+        storageSet(newKey, savedProgress);
+        storageRemove(oldKey);
       }
 
       sessions = sessions.map(name => name === oldName ? nextName : name);
@@ -5171,7 +5401,9 @@
         qContainer.appendChild(item);
       });
 
-      document.getElementById('explore-toggle').classList.remove('open');
+      const exploreToggle = document.getElementById('explore-toggle');
+      exploreToggle.classList.remove('open');
+      exploreToggle.setAttribute('aria-expanded', 'false');
       document.getElementById('explore-deeper-content').classList.remove('open');
       resetModalScroll();
 
@@ -5228,9 +5460,14 @@
     function toggleExploreDeeper() {
       const toggle = document.getElementById('explore-toggle');
       const content = document.getElementById('explore-deeper-content');
+      if (!toggle || !content) return;
+
       const wasOpen = toggle.classList.contains('open');
+
       toggle.classList.toggle('open');
       content.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(!wasOpen));
+
       if (!wasOpen) {
         const modalBody = document.getElementById('cl-modal-panel').querySelector('.modal-body');
         if (modalBody) {
@@ -5679,10 +5916,11 @@
     };
 
     function getAppearanceMode() {
-      const saved = localStorage.getItem(APPEARANCE_MODE_KEY);
-      return (saved === 'night') ? 'night' : 'light';
-    }
+      const saved = storageGet(APPEARANCE_MODE_KEY);
+      if (saved === 'night' || saved === 'light') return saved;
 
+      return document.documentElement.dataset.theme === 'night' ? 'night' : 'light';
+    }
     function applyAppearanceMode(mode) {
       document.documentElement.dataset.theme = mode;
     }
@@ -5690,7 +5928,7 @@
     function setAppearanceMode(mode) {
       document.documentElement.classList.add('theme-changing');
 
-      localStorage.setItem(APPEARANCE_MODE_KEY, mode);
+      storageSet(APPEARANCE_MODE_KEY, mode);
       applyAppearanceMode(mode);
       updateAppearanceToggleUI();
       window.dispatchEvent(new CustomEvent('human-compass:appearance-change', { detail: { mode } }));
@@ -5698,7 +5936,7 @@
       window.clearTimeout(window.__humanCompassThemeTimer);
       window.__humanCompassThemeTimer = window.setTimeout(() => {
         document.documentElement.classList.remove('theme-changing');
-      }, 2000);
+      }, 650);
     }
 
     function toggleAppearanceMode() {
@@ -5741,11 +5979,11 @@
     }
 
     function initAppearanceMode() {
-      // The early head script already called applyAppearanceMode via dataset.theme,
-      // so we only need to sync the saved value and update UI icons.
-      const saved = localStorage.getItem(APPEARANCE_MODE_KEY);
+      // The early head script already set dataset.theme before first paint.
+      // Here we sync storage when available and update all toggle icons.
+      const saved = storageGet(APPEARANCE_MODE_KEY);
       if (saved !== 'night' && saved !== 'light') {
-        localStorage.setItem(APPEARANCE_MODE_KEY, 'light');
+        storageSet(APPEARANCE_MODE_KEY, getAppearanceMode());
       }
       updateAppearanceToggleUI();
     }
@@ -5780,6 +6018,7 @@
       // Render content grids
       renderCLGrid();
       renderDiscussionSets();
+      updateLessonCompleteButton();
       // Initialise appearance mode (reads saved value, stamps icons into injected navs)
       initAppearanceMode();
     }
