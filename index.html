@@ -3664,8 +3664,19 @@
 
     html.theme-changing .mobile-drawer,
     html.theme-changing .mobile-drawer *,
+    html.theme-changing .mobile-drawer::before,
+    html.theme-changing .mobile-drawer::after,
     html.theme-changing .mobile-drawer-overlay {
-      transition-duration: 0.24s !important;
+      transition:
+        background-color 0.22s ease,
+        background 0.22s ease,
+        color 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease,
+        opacity 0.22s ease,
+        filter 0.22s ease,
+        backdrop-filter 0.22s ease,
+        -webkit-backdrop-filter 0.22s ease !important;
     }
 
     /* Explicitly transition the position so it pans smoothly */
@@ -3957,6 +3968,16 @@
         padding-top: 1rem;
         padding-bottom: 1rem;
         box-sizing: border-box;
+      }
+
+      .cover-bg {
+        inset: -8% 0;
+        transform: translateY(3.5%);
+        will-change: transform;
+      }
+
+      html[data-theme="night"] .cover-bg {
+        transform: translateY(-3.5%);
       }
 
       .cover-card {
