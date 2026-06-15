@@ -3715,6 +3715,17 @@
 
     @media (hover: none) and (pointer: coarse) {
 
+      button,
+      [role="button"],
+      .mobile-nav-item,
+      .mobile-menu-btn,
+      .mobile-appearance-toggle,
+      .cover-appearance-toggle,
+      .nav-keylang-btn,
+      .nav-icon-btn {
+        -webkit-tap-highlight-color: transparent;
+      }
+
       .main-path-card:hover,
       .reflection-path-card:hover,
       .set-card:hover,
@@ -3971,13 +3982,14 @@
       }
 
       .cover-bg {
-        inset: -8% 0;
-        transform: translateY(3.5%);
+        inset: -14% -8%;
+        transform: translateY(2.8%) scale(1.08);
+        transform-origin: center center;
         will-change: transform;
       }
 
       html[data-theme="night"] .cover-bg {
-        transform: translateY(-3.5%);
+        transform: translateY(-2.8%) scale(1.08);
       }
 
       .cover-card {
