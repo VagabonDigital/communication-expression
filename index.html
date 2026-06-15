@@ -480,6 +480,7 @@
     .nav-links {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.2rem;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -626,6 +627,77 @@
     .nav-session-indicator svg {
       flex-shrink: 0;
       opacity: 0.72;
+    }
+
+    /* ============================================================
+   DESKTOP NAV — COMPACT WIDTH STATES
+   Prevents nav labels from truncating at zoomed or mid-width layouts.
+   ============================================================ */
+
+    /* Gentle squeeze: keep text labels */
+    @media (max-width: 1180px) and (min-width: 681px) {
+      .top-nav {
+        padding: 0 1rem;
+        gap: 0.5rem;
+      }
+
+      .nav-brand {
+        max-width: 230px;
+      }
+
+      .nav-brand-subject {
+        display: none;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 0.08rem;
+        padding: 0;
+      }
+
+      .nav-link {
+        padding: 0.32rem 0.56rem;
+        font-size: 0.76rem;
+      }
+
+      .nav-actions {
+        gap: 0.42rem;
+      }
+
+      .nav-session-indicator {
+        max-width: 104px;
+        padding: 0.42rem 0.68rem;
+      }
+    }
+
+    /* True compact mode: icons only, only when genuinely needed */
+    @media (max-width: 980px) and (min-width: 681px) {
+      .nav-link {
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        justify-content: center;
+        gap: 0;
+        border-radius: 12px;
+        font-size: 0;
+      }
+
+      .nav-link svg {
+        width: 17px;
+        height: 17px;
+        opacity: 0.82;
+      }
+
+      .nav-session-indicator {
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        justify-content: center;
+      }
+
+      .nav-session-indicator span {
+        display: none;
+      }
     }
 
     /* ============================================================
@@ -5340,10 +5412,10 @@
       const links = NAV_ITEMS.map(item => {
         const isActive = item.viewId === activeViewId;
         const onclick = isActive ? '' : `onclick="goToView('${item.viewId}')"`;
-        return `<button class="nav-link${isActive ? ' active' : ''}" ${onclick}>
-          ${item.desktopSvg}
-          ${item.label}
-        </button>`;
+        return `<button class="nav-link${isActive ? ' active' : ''}" title="${escHtml(item.label)}" aria-label="${escHtml(item.label)}" ${onclick}>
+  ${item.desktopSvg}
+  ${item.label}
+</button>`;
       }).join('\n');
 
       container.innerHTML = `<nav class="top-nav">
