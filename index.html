@@ -2426,6 +2426,13 @@
       font-style: italic;
     }
 
+    #view-reflection.reflection-complete .reflection-progress-summary {
+      font-size: clamp(0.68rem, 3.15vw, 0.78rem);
+      padding-left: 0.72rem;
+      padding-right: 0.72rem;
+      white-space: nowrap;
+    }
+
     .reflection-actions {
       display: flex;
       gap: 0.8rem;
@@ -6593,7 +6600,13 @@
         ? MODULE.labels.discussionUnitSingular
         : MODULE.labels.discussionUnitPlural;
 
-      summary.textContent = `${clCovered}/${clCards.length} ${clUnit} covered · ${discCovered}/${totalScenarios} ${discUnit} covered`;
+      const useCompactSummary =
+        isLessonComplete() &&
+        window.matchMedia('(max-width: 680px)').matches;
+
+      summary.textContent = useCompactSummary
+        ? `${clCovered}/${clCards.length} ${clUnit} · ${discCovered}/${totalScenarios} ${discUnit}`
+        : `${clCovered}/${clCards.length} ${clUnit} covered · ${discCovered}/${totalScenarios} ${discUnit} covered`;
     }
 
     function escHtml(str) {
