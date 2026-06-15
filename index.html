@@ -3427,6 +3427,8 @@
     }
 
     html[data-theme="night"] .btn-ghost,
+    html[data-theme="night"] .btn-close-set,
+    html[data-theme="night"] .btn-close-set-bottom,
     html[data-theme="night"] .nav-session-indicator,
     html[data-theme="night"] .nav-keylang-btn,
     html[data-theme="night"] .mobile-menu-btn,
@@ -3440,6 +3442,8 @@
     }
 
     html[data-theme="night"] .btn-ghost:hover,
+    html[data-theme="night"] .btn-close-set:hover,
+    html[data-theme="night"] .btn-close-set-bottom:hover,
     html[data-theme="night"] .nav-session-indicator:hover,
     html[data-theme="night"] .nav-keylang-btn:hover,
     html[data-theme="night"] .mobile-menu-btn:hover,
@@ -4408,8 +4412,7 @@
         </button>
       </div>
       <div class="session-modal-body">
-        <p style="font-size:0.82rem;color:var(--ink-light);margin-bottom:1rem;">Create a new session when you want this
-          lesson to remember progress separately — for yourself, a student, a group, or a fresh run of the lesson.</p>
+        <p id="session-helper-text" style="font-size:0.82rem;color:var(--ink-light);margin-bottom:1rem;"></p>
         <p
           style="font-size:0.75rem;color:var(--stone-dark);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.6rem;">
           Saved Sessions</p>
@@ -5587,6 +5590,19 @@
       if (mobLabel) mobLabel.textContent = label;
 
       updateCoverActionUI();
+      updateSessionHelperText();
+    }
+
+    function updateSessionHelperText() {
+      const helper = document.getElementById('session-helper-text');
+      if (!helper) return;
+
+      if (currentSession === 'Default') {
+        helper.textContent = 'Hi there — add your name to save this lesson’s progress under your own session. You can also create sessions for a group, class, or fresh start.';
+        return;
+      }
+
+      helper.textContent = `Hi, ${currentSession} — this lesson is saving progress to your session. Create another session for a group, class, or fresh start.`;
     }
 
     function openSessionModal() {
