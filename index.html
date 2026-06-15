@@ -2035,13 +2035,6 @@
         display: none !important;
       }
 
-      body.printing-key-language .vb-drawer,
-      body.printing-key-language .vb-overlay,
-      body.printing-key-language .vb-header,
-      body.printing-key-language .vb-print-area {
-        display: none !important;
-      }
-
       body.printing-key-language #print-key-language {
         display: block !important;
         color: #1e1b16;
@@ -3793,10 +3786,6 @@
 
       .vb-list {
         padding: 0.8rem 1.2rem 2rem;
-      }
-
-      .vb-print-btn-pdf {
-        display: none;
       }
 
       .orientation-wrap,
@@ -6494,19 +6483,20 @@
       document.body.classList.add('printing-key-language');
 
       const cleanupPrint = () => {
-        document.body.classList.remove('printing-key-language');
-        document.title = originalTitle;
-        printArea.innerHTML = '';
+        setTimeout(() => {
+          document.body.classList.remove('printing-key-language');
+          document.title = originalTitle;
+          printArea.innerHTML = '';
+        }, 2000);
+
         window.removeEventListener('afterprint', cleanupPrint);
       };
 
       window.addEventListener('afterprint', cleanupPrint);
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          window.print();
-        });
-      });
+      setTimeout(() => {
+        window.print();
+      }, 300);
     }
 
     // ---- UTILITIES ----
