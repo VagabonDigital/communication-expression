@@ -2035,6 +2035,13 @@
         display: none !important;
       }
 
+      body.printing-key-language .vb-drawer,
+      body.printing-key-language .vb-overlay,
+      body.printing-key-language .vb-header,
+      body.printing-key-language .vb-print-area {
+        display: none !important;
+      }
+
       body.printing-key-language #print-key-language {
         display: block !important;
         color: #1e1b16;
@@ -2424,13 +2431,6 @@
       color: var(--ink);
       line-height: 1.65;
       font-style: italic;
-    }
-
-    #view-reflection.reflection-complete .reflection-progress-summary {
-      font-size: clamp(0.68rem, 3.15vw, 0.78rem);
-      padding-left: 0.72rem;
-      padding-right: 0.72rem;
-      white-space: nowrap;
     }
 
     .reflection-actions {
@@ -3795,6 +3795,10 @@
         padding: 0.8rem 1.2rem 2rem;
       }
 
+      .vb-print-btn-pdf {
+        display: none;
+      }
+
       .orientation-wrap,
       .section-wrap,
       .reflection-wrap {
@@ -3825,6 +3829,13 @@
       .reflection-q-text {
         font-size: 0.92rem;
         line-height: 1.6;
+      }
+
+      #view-reflection.reflection-complete .reflection-progress-summary {
+        font-size: clamp(0.68rem, 3.15vw, 0.78rem);
+        padding-left: 0.72rem;
+        padding-right: 0.72rem;
+        white-space: nowrap;
       }
 
       .reflection-actions {
@@ -6348,7 +6359,7 @@
         <button class="vb-print-btn vb-print-btn-bottom" type="button" onclick="copyKeyLanguage(this)">
           Copy Key Language
         </button>
-        <button class="vb-print-btn vb-print-btn-bottom" type="button" onclick="printKeyLanguage()">
+        <button class="vb-print-btn vb-print-btn-bottom vb-print-btn-pdf" type="button" onclick="printKeyLanguage()">
           Print / Save PDF
         </button>`;
       list.appendChild(printArea);
