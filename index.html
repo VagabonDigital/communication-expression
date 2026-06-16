@@ -2651,6 +2651,145 @@
     }
 
     /* ============================================================
+   SESSION CONFIRM DIALOG
+   Replaces native browser confirm() for destructive actions.
+   ============================================================ */
+
+    .hc-confirm-dialog {
+      width: min(420px, calc(100vw - 2rem));
+      margin: auto;
+      padding: 0;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-lg);
+      background: var(--white);
+      color: var(--ink);
+      font-family: var(--font-body);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hc-confirm-dialog::backdrop {
+      background: rgba(20, 17, 12, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .hc-confirm-panel {
+      padding: 1.45rem 1.55rem 1.35rem;
+    }
+
+    .hc-confirm-kicker {
+      margin-bottom: 0.45rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hc-confirm-title {
+      margin-bottom: 0.55rem;
+      color: var(--ink-dark);
+      font-size: 1.16rem;
+    }
+
+    .hc-confirm-message {
+      color: var(--ink-light);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      max-width: none;
+    }
+
+    .hc-confirm-input {
+      display: none;
+      margin-top: 0.95rem;
+    }
+
+    .hc-confirm-input.is-visible {
+      display: block;
+    }
+
+    .hc-confirm-error {
+      display: none;
+      margin-top: 0.55rem;
+      color: var(--danger-text);
+      font-size: 0.8rem;
+      line-height: 1.45;
+      max-width: none;
+    }
+
+    .hc-confirm-error.is-visible {
+      display: block;
+    }
+
+    html[data-theme="night"] .hc-confirm-error {
+      color: #fca5a5;
+    }
+
+    .hc-confirm-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      margin-top: 1.25rem;
+    }
+
+    .btn-danger-confirm {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.55rem;
+      padding: 0.58rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--danger-border);
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      font-family: var(--font-body);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-danger-confirm:hover {
+      background: #fee2e2;
+      border-color: #f87171;
+    }
+
+    html[data-theme="night"] .hc-confirm-dialog {
+      background: #4c4237;
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    html[data-theme="night"] .hc-confirm-dialog::backdrop {
+      background: rgba(20, 17, 14, 0.62);
+    }
+
+    html[data-theme="night"] .btn-danger-confirm {
+      background: rgba(127, 29, 29, 0.36);
+      border-color: rgba(252, 165, 165, 0.38);
+      color: #fca5a5;
+    }
+
+    html[data-theme="night"] .btn-danger-confirm:hover {
+      background: rgba(127, 29, 29, 0.52);
+      border-color: rgba(252, 165, 165, 0.55);
+      color: #fecaca;
+    }
+
+    @media (max-width: 680px) {
+      .hc-confirm-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .hc-confirm-actions .btn-ghost,
+      .hc-confirm-actions .btn-primary,
+      .hc-confirm-actions .btn-danger-confirm {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ============================================================
    UTILITY
    ============================================================ */
 
@@ -4437,6 +4576,21 @@
 
   <div id="print-key-language" class="print-key-language" aria-hidden="true"></div>
 
+  <dialog class="hc-confirm-dialog" id="hc-confirm-dialog" aria-labelledby="hc-confirm-title"
+    aria-describedby="hc-confirm-message">
+    <div class="hc-confirm-panel">
+      <p class="hc-confirm-kicker" id="hc-confirm-kicker">Session action</p>
+      <h3 class="hc-confirm-title" id="hc-confirm-title">Are you sure?</h3>
+      <p class="hc-confirm-message" id="hc-confirm-message"></p>
+      <input class="session-input hc-confirm-input" id="hc-confirm-input" type="text" maxlength="40" autocomplete="off">
+      <p class="hc-confirm-error" id="hc-confirm-error" role="alert"></p>
+      <div class="hc-confirm-actions">
+        <button class="btn-ghost" type="button" id="hc-confirm-cancel">Cancel</button>
+        <button class="btn-danger-confirm" type="button" id="hc-confirm-ok">OK</button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- ============================================================
      SESSION MODAL
      ============================================================ -->
@@ -5661,6 +5815,176 @@
       if (e.target === document.getElementById('session-modal-overlay')) closeSessionModal();
     }
 
+    function showSessionDialog({
+      mode = 'confirm',
+      variant = 'danger',
+      kicker = 'Session action',
+      title = 'Are you sure?',
+      message = '',
+      confirmLabel = 'OK',
+      initialValue = '',
+      validate = null
+    } = {}) {
+      const dialog = document.getElementById('hc-confirm-dialog');
+      const kickerEl = document.getElementById('hc-confirm-kicker');
+      const titleEl = document.getElementById('hc-confirm-title');
+      const messageEl = document.getElementById('hc-confirm-message');
+      const inputEl = document.getElementById('hc-confirm-input');
+      const errorEl = document.getElementById('hc-confirm-error');
+      const cancelBtn = document.getElementById('hc-confirm-cancel');
+      const okBtn = document.getElementById('hc-confirm-ok');
+
+      const isPrompt = mode === 'prompt';
+
+      if (!dialog || typeof dialog.showModal !== 'function' || !cancelBtn || !okBtn || (isPrompt && !inputEl)) {
+        return Promise.resolve(
+          isPrompt
+            ? window.prompt(title, initialValue)
+            : window.confirm(message || title)
+        );
+      }
+
+      return new Promise(resolve => {
+        const previousTrapRoot = activeFocusTrapRoot;
+        activeFocusTrapRoot = null;
+
+        if (dialog.open) dialog.close();
+
+        if (kickerEl) kickerEl.textContent = kicker;
+        if (titleEl) titleEl.textContent = title;
+        if (messageEl) messageEl.textContent = message;
+
+        okBtn.textContent = confirmLabel;
+        okBtn.className = variant === 'primary' ? 'btn-primary' : 'btn-danger-confirm';
+
+        if (errorEl) {
+          errorEl.textContent = '';
+          errorEl.classList.remove('is-visible');
+        }
+
+        if (inputEl) {
+          inputEl.value = isPrompt ? initialValue : '';
+          inputEl.classList.toggle('is-visible', isPrompt);
+        }
+
+        const showError = text => {
+          if (!errorEl) return;
+          errorEl.textContent = text;
+          errorEl.classList.add('is-visible');
+        };
+
+        const cleanup = value => {
+          okBtn.removeEventListener('click', onConfirm);
+          cancelBtn.removeEventListener('click', onCancel);
+          if (inputEl) inputEl.removeEventListener('keydown', onInputKeydown);
+          dialog.removeEventListener('cancel', onDialogCancel);
+          dialog.removeEventListener('click', onBackdropClick);
+
+          if (inputEl) {
+            inputEl.classList.remove('is-visible');
+            inputEl.value = '';
+          }
+
+          if (errorEl) {
+            errorEl.textContent = '';
+            errorEl.classList.remove('is-visible');
+          }
+
+          if (dialog.open) dialog.close();
+
+          activeFocusTrapRoot = previousTrapRoot;
+          resolve(value);
+        };
+
+        const onConfirm = () => {
+          if (!isPrompt) {
+            cleanup(true);
+            return;
+          }
+
+          const value = inputEl.value.trim();
+
+          if (typeof validate === 'function') {
+            const error = validate(value);
+            if (error) {
+              showError(error);
+              inputEl.focus({ preventScroll: true });
+              return;
+            }
+          }
+
+          cleanup(value);
+        };
+
+        const onCancel = () => cleanup(isPrompt ? null : false);
+
+        const onInputKeydown = event => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            onConfirm();
+          }
+        };
+
+        const onDialogCancel = event => {
+          event.preventDefault();
+          cleanup(isPrompt ? null : false);
+        };
+
+        const onBackdropClick = event => {
+          const rect = dialog.getBoundingClientRect();
+          const clickedInside =
+            event.clientX >= rect.left &&
+            event.clientX <= rect.right &&
+            event.clientY >= rect.top &&
+            event.clientY <= rect.bottom;
+
+          if (!clickedInside) cleanup(isPrompt ? null : false);
+        };
+
+        okBtn.addEventListener('click', onConfirm);
+        cancelBtn.addEventListener('click', onCancel);
+        if (inputEl) inputEl.addEventListener('keydown', onInputKeydown);
+        dialog.addEventListener('cancel', onDialogCancel);
+        dialog.addEventListener('click', onBackdropClick);
+
+        try {
+          dialog.showModal();
+
+          requestAnimationFrame(() => {
+            const focusTarget = isPrompt ? inputEl : cancelBtn;
+            focusTarget.focus({ preventScroll: true });
+
+            if (isPrompt) {
+              inputEl.select();
+            }
+          });
+        } catch {
+          activeFocusTrapRoot = previousTrapRoot;
+          resolve(
+            isPrompt
+              ? window.prompt(title, initialValue)
+              : window.confirm(message || title)
+          );
+        }
+      });
+    }
+
+    function showConfirmDialog(options = {}) {
+      return showSessionDialog({
+        ...options,
+        mode: 'confirm',
+        variant: options.variant || 'danger'
+      });
+    }
+
+    function showPromptDialog(options = {}) {
+      return showSessionDialog({
+        ...options,
+        mode: 'prompt',
+        variant: options.variant || 'primary'
+      });
+    }
+
     function renderSessionList() {
       const list = document.getElementById('session-list');
       list.innerHTML = '';
@@ -5717,16 +6041,32 @@
       refreshProgressUI();
     }
 
-    function resetSession(name) {
-      if (!confirm(`Reset all progress for session "${name}"?`)) return;
+    async function resetSession(name) {
+      const confirmed = await showConfirmDialog({
+        kicker: 'Reset progress',
+        title: 'Reset this session?',
+        message: `This will clear all saved progress for "${name}". The session itself will stay available.`,
+        confirmLabel: 'Reset progress'
+      });
+
+      if (!confirmed) return;
+
       storageRemove(`${MODULE.id}::${name}`);
       if (name === currentSession) loadProgress();
       renderSessionList();
       refreshProgressUI();
     }
 
-    function deleteSession(name) {
-      if (!confirm(`Delete session "${name}"? This will also remove its saved progress.`)) return;
+    async function deleteSession(name) {
+      const confirmed = await showConfirmDialog({
+        kicker: 'Delete session',
+        title: 'Delete this session?',
+        message: `This will permanently delete "${name}" and remove its saved progress from this device.`,
+        confirmLabel: 'Delete session'
+      });
+
+      if (!confirmed) return;
+
       sessions = sessions.filter(s => s !== name);
       storageRemove(`${MODULE.id}::${name}`);
       if (currentSession === name) { currentSession = 'Default'; loadProgress(); }
@@ -5736,20 +6076,27 @@
       refreshProgressUI();
     }
 
-    function renameSession(oldName) {
+    async function renameSession(oldName) {
       if (oldName === 'Default') return;
       if (!sessions.includes(oldName)) return;
 
-      const nextNameRaw = prompt(`Rename session "${oldName}"`, oldName);
-      if (nextNameRaw === null) return;
+      const nextName = await showPromptDialog({
+        kicker: 'Rename session',
+        title: 'Rename this session',
+        message: 'Choose a clear name for this saved lesson session.',
+        initialValue: oldName,
+        confirmLabel: 'Save name',
+        validate: value => {
+          if (!value) return 'Enter a session name.';
+          if (value !== oldName && sessions.includes(value)) {
+            return 'A session with that name already exists.';
+          }
+          return '';
+        }
+      });
 
-      const nextName = nextNameRaw.trim();
+      if (nextName === null) return;
       if (!nextName || nextName === oldName) return;
-
-      if (sessions.includes(nextName)) {
-        alert('A session with that name already exists.');
-        return;
-      }
 
       const oldKey = `${MODULE.id}::${oldName}`;
       const newKey = `${MODULE.id}::${nextName}`;
@@ -5843,47 +6190,13 @@
     }
 
     function gentlyRevealUpgradePanel(panel) {
-      const modalBody = panel.closest('.modal-body');
+      if (!panel) return;
 
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const rect = panel.getBoundingClientRect();
-          const margin = 34;
-
-          if (modalBody) {
-            const bodyRect = modalBody.getBoundingClientRect();
-            let targetTop = modalBody.scrollTop;
-
-            if (rect.bottom > bodyRect.bottom - margin) {
-              targetTop += rect.bottom - (bodyRect.bottom - margin);
-            } else if (rect.top < bodyRect.top + margin) {
-              targetTop += rect.top - (bodyRect.top + margin);
-            } else {
-              return;
-            }
-
-            modalBody.scrollTo({
-              top: Math.max(0, targetTop),
-              behavior: getScrollBehavior()
-            });
-
-            return;
-          }
-
-          let targetY = window.scrollY;
-
-          if (rect.bottom > window.innerHeight - margin) {
-            targetY += rect.bottom - (window.innerHeight - margin);
-          } else if (rect.top < margin) {
-            targetY += rect.top - margin;
-          } else {
-            return;
-          }
-
-          window.scrollTo({
-            top: Math.max(0, targetY),
-            behavior: getScrollBehavior()
-          });
+        panel.scrollIntoView({
+          behavior: getScrollBehavior(),
+          block: 'nearest',
+          inline: 'nearest'
         });
       });
     }
@@ -6077,17 +6390,13 @@
       toggle.setAttribute('aria-expanded', String(!wasOpen));
 
       if (!wasOpen) {
-        const modalBody = document.getElementById('cl-modal-panel').querySelector('.modal-body');
-        if (modalBody) {
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              const toggleRect = toggle.getBoundingClientRect();
-              const bodyRect = modalBody.getBoundingClientRect();
-              const targetTop = modalBody.scrollTop + (toggleRect.top - bodyRect.top) - 14;
-              modalBody.scrollTo({ top: Math.max(0, targetTop), behavior: getScrollBehavior() });
-            });
+        requestAnimationFrame(() => {
+          content.scrollIntoView({
+            behavior: getScrollBehavior(),
+            block: 'nearest',
+            inline: 'nearest'
           });
-        }
+        });
       }
     }
 
@@ -6684,6 +6993,9 @@
       const clModalOpen = document.getElementById('cl-modal-overlay').classList.contains('open');
 
       if (e.key === 'Escape') {
+        const confirmDialog = document.getElementById('hc-confirm-dialog');
+        if (confirmDialog?.open) return;
+
         if (clModalOpen) closeModal();
         if (document.getElementById('vb-drawer').classList.contains('open')) closeVocabBank();
         if (document.getElementById('session-modal-overlay').classList.contains('open')) closeSessionModal();
