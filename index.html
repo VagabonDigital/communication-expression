@@ -1258,19 +1258,19 @@
     .upgrade-chip {
       display: inline-flex;
       align-items: center;
-      gap: 0.38rem;
+      gap: 0.45rem;
       max-width: 100%;
-      padding: 0.32rem 0.72rem 0.32rem 0.55rem;
-      border-radius: 20px;
-      border: 1px solid rgba(var(--accent-rgb), 0.28);
-      background: rgba(var(--accent-pale-rgb), 0.45);
+      min-height: 2.15rem;
+      padding: 0.25rem 0.08rem;
+      border: none;
+      background: transparent;
       font-family: var(--font-body);
-      font-size: 0.77rem;
-      font-weight: 500;
-      line-height: 1.28;
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.35;
       color: var(--accent);
       cursor: pointer;
-      transition: var(--transition);
+      transition: color var(--transition), opacity var(--transition);
       user-select: none;
       letter-spacing: 0.01em;
       text-align: left;
@@ -1278,29 +1278,30 @@
       position: relative;
     }
 
-    .upgrade-chip:hover {
-      background: rgba(var(--accent-pale-rgb), 0.8);
-      border-color: rgba(var(--accent-rgb), 0.5);
-      box-shadow: 0 1px 6px rgba(var(--accent-rgb), 0.18);
-    }
-
-    /* Open state: subtle, not a heavy teal button */
+    .upgrade-chip:hover,
     .upgrade-chip.open {
-      background: rgba(var(--accent-pale-rgb), 0.72);
-      border-color: rgba(var(--accent-rgb), 0.55);
       color: var(--accent);
-      box-shadow: 0 1px 5px rgba(var(--accent-rgb), 0.14);
+      opacity: 0.86;
     }
 
     .upgrade-chip-icon {
       flex-shrink: 0;
-      opacity: 0.7;
-      width: 13px;
-      height: 13px;
+      opacity: 0.62;
+      width: 14px;
+      height: 14px;
+      transition:
+        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.2s ease;
+    }
+
+    .upgrade-chip:hover .upgrade-chip-icon {
+      opacity: 0.9;
+      transform: translateY(-1px);
     }
 
     .upgrade-chip.open .upgrade-chip-icon {
-      opacity: 0.85;
+      opacity: 1;
+      transform: rotate(45deg);
     }
 
     /* Upgrade panel — opens below its container row */
@@ -3615,15 +3616,17 @@
     }
 
     html[data-theme="night"] .upgrade-chip {
-      background: rgba(61, 98, 94, 0.58);
-      border-color: rgba(131, 185, 179, 0.36);
+      background: transparent;
+      border: none;
       color: var(--accent-soft);
     }
 
     html[data-theme="night"] .upgrade-chip:hover,
     html[data-theme="night"] .upgrade-chip.open {
-      background: rgba(61, 98, 94, 0.82);
-      border-color: rgba(159, 206, 201, 0.55);
+      background: transparent;
+      border: none;
+      color: var(--accent-soft);
+      opacity: 0.9;
     }
 
     html[data-theme="night"] .upgrade-panel,
@@ -4286,9 +4289,10 @@
         <!-- Per-subject content: Cultural Lens section header -->
         <div class="section-header">
           <p class="section-eyebrow">Cultural Lens</p>
-          <h2>Communication rules across cultures</h2>
+          <h2>Communication expectations across cultures</h2>
           <p>Communication is not just about exchanging information — it also reflects deep ideas about respect,
-            hierarchy, and social harmony. Across cultures and history, people have developed very different rules about
+            hierarchy, and social harmony. Across cultures and history, people have developed very different
+            expectations about
             when to speak clearly, when to stay vague, and when silence or emotion carries more weight than words.</p>
           <div class="progress-strip">
             <span id="cl-progress-text">Explore the cards below — choose any that interest you.</span>
@@ -4399,7 +4403,7 @@
         <h2 id="reflection-title" aria-live="polite">Complete the Conversation</h2>
         <p class="reflection-summary">You've explored how tone, timing, silence, directness, and emotion change what
           people really mean — across cultures, real-life situations, and your own experience. These conversations help
-          you express ideas more clearly, interpret others more accurately, and navigate everyday interactions with
+          you express ideas more clearly, interpret others with more care, and navigate everyday interactions with
           greater confidence.</p>
         <div class="reflection-questions">
           <div class="reflection-q">
@@ -4632,6 +4636,8 @@
 
     const MODULE = {
       id: 'communication-expression',
+      schemaVersion: 1,
+      contentVersion: '1.0.0',
       title: 'Communication & Expression',
       titleHtml: 'Communication<br>&amp; <em>Expression</em>',
       navTitle: 'Communication',
@@ -4825,7 +4831,7 @@
       {
         id: 'cl-imperial-china',
         location: 'Imperial China',
-        title: 'Criticism hidden inside culture',
+        title: 'Criticism hidden inside art',
         teaser: 'A poem could carry a political message that a direct report never could.',
         insight: 'In imperial China, officials sometimes criticised rulers indirectly through poetry, symbolism, or historical references instead of open attack. A message could be serious and political without sounding openly rebellious on the surface. This allowed ideas to circulate that could not survive as direct speech, and protected the writer with a layer of plausible deniability.',
         question: 'If someone criticised you using a story, a joke, or a carefully chosen example rather than saying it directly, would you notice — and would you prefer they had just been honest?',
@@ -4891,7 +4897,7 @@
       {
         id: 'cl-germany',
         location: 'Germany',
-        title: 'Blunt honesty as respect',
+        title: 'Direct honesty as respect',
         teaser: 'Softening a message too much can sometimes feel less respectful, not more.',
         insight: 'In Germany, direct feedback is often seen as respectful because it avoids confusion, mixed signals, or hidden criticism. Being clear can feel more honest than trying too hard to protect someone\'s feelings. The assumption behind this approach is that the other person is capable of receiving honest information without needing it wrapped in reassurance.',
         question: 'If your work, your outfit, or your idea had a real problem, would you want someone to tell you directly — or would you prefer they soften the message first?',
@@ -4911,11 +4917,11 @@
         }
       },
       {
-        id: 'cl-arab',
-        location: 'Arab-speaking traditions',
+        id: 'cl-arabic',
+        location: 'Arabic-speaking communication traditions',
         title: 'Expressiveness as sincerity',
         teaser: 'A more reserved delivery can sometimes sound unconvincing rather than restrained.',
-        insight: 'In many Arab-speaking traditions, emotional tone, repetition, emphasis, and strong verbal expression can add warmth, honesty, and human connection to speech. Speaking in a more expressive way may feel more sincere than sounding flat or overly restrained. What might read as exaggeration in one communication context can be the natural register of genuine feeling in another.',
+        insight: 'In many Arabic-speaking traditions, emotional tone, repetition, emphasis, and strong verbal expression can add warmth, honesty, and human connection to speech. Speaking in a more expressive way may feel more sincere than sounding flat or overly restrained. What might read as exaggeration in one communication context can be the natural register of genuine feeling in another.',
         question: 'When someone speaks with strong emotion, repetition, and a lot of emphasis, do you find yourself reading it as sincerity, drama, confidence — or something else entirely?',
         upgrade: {
           term: 'register',
@@ -4992,10 +4998,10 @@
             preview: 'Someone keeps interrupting mid-sentence…',
             text: 'You are explaining something important, but someone keeps cutting in before you finish. Do you stop talking, raise your voice a little, or just wait for a moment when you can get the floor back?',
             upgrade: {
-              term: 'floor-holding',
-              type: 'noun',
+              term: 'holding the floor',
+              type: 'phrase',
               def: 'The ability to keep speaking and maintain your turn in a conversation without being cut off.',
-              in_action: 'I find floor-holding really difficult in fast group discussions — by the time I find a gap, the topic has already moved on.'
+              in_action: 'I find holding the floor really difficult in fast group discussions — by the time I find a gap, the topic has already moved on.'
             }
           },
           {
@@ -5126,10 +5132,10 @@
             preview: 'Sharing something personal and getting a similar story back…',
             text: 'You share a personal experience and the other person immediately shares a similar one of their own. Do you find that kind of response connecting — or does it sometimes feel like the focus has shifted away from you?',
             upgrade: {
-              term: 'reciprocal sharing',
+              term: 'mutual sharing',
               type: 'noun phrase',
               def: 'When someone responds to what you\'ve shared by opening up about something similar from their own experience, creating a sense of mutual understanding.',
-              in_action: 'It felt like genuine reciprocal sharing — she told me about a similar experience right away, and suddenly I felt like she actually got what I was going through.'
+              in_action: 'It felt like genuine mutual sharing — she told me about a similar experience right away, and suddenly I felt like she actually got what I was going through.'
             }
           },
           {
@@ -5470,7 +5476,9 @@
       try {
         const culturalLensItems = clCards.map(card => ({
           type: 'cultural-lens',
+          moduleId: MODULE.id,
           id: card.id,
+          stableId: `${MODULE.id}::${card.id}`,
           title: card.title,
           label: card.location,
           upgradeTerm: card.upgrade.term,
@@ -5482,9 +5490,11 @@
         const scenarioItems = discussionSets.flatMap(set =>
           set.scenarios.map(sc => ({
             type: 'scenario',
+            moduleId: MODULE.id,
+            id: sc.id,
+            stableId: `${MODULE.id}::${sc.id}`,
             setId: set.id,
             setTitle: set.title,
-            id: sc.id,
             title: sc.preview,
             upgradeTerm: sc.upgrade.term,
             upgradeType: sc.upgrade.type,
@@ -5494,6 +5504,8 @@
         );
 
         const manifest = {
+          schemaVersion: MODULE.schemaVersion || 1,
+          contentVersion: MODULE.contentVersion || '1.0.0',
           id: MODULE.id,
           title: MODULE.title,
           navTitle: MODULE.navTitle || MODULE.title,
@@ -5509,6 +5521,8 @@
         const nextIndex = index.filter(item => item.id !== MODULE.id);
 
         nextIndex.push({
+          schemaVersion: MODULE.schemaVersion || 1,
+          contentVersion: MODULE.contentVersion || '1.0.0',
           id: MODULE.id,
           title: MODULE.title,
           navTitle: MODULE.navTitle || MODULE.title,
